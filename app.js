@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 
 app.get("/",function(req,resp){
-     resp.send("Hello World");
+     resp.send("Hello World!");
 });
 
 app.listen(8080,function(erro){
@@ -11,4 +11,5 @@ app.listen(8080,function(erro){
     } else {
         console.log("servidor rodando com sucesso");
     }
+    console.log("servidor rodando com sucesso 2");
 });
