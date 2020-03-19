@@ -5,7 +5,7 @@ app.get("/",function(req,resp){
      resp.send("Hello World!");
 });
 
-app.listen(8080,function(erro){
+app.listen(process.env.PORT || 3000,function(erro){
     if (erro) {
         console.log("aconteceu um erro !!!");
     } else {
