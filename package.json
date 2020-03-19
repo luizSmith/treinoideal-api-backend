@@ -1,10 +1,10 @@
 {
-  "name": "ola_mundo",
-  "version": "1.0.0",
-  "description": "Apresentacao",
-  "main": "index.js",
+  "name": "training_manager",
+  "version": "0.0.1",
+  "description": "Teste de deploy",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "author": "Japa Smith",
   "license": "ISC",
