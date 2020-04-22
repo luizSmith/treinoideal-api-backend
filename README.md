@@ -11,4 +11,5 @@ MySQL
 ### Hosting:
 Heroku
 
-### Link: https://fatec-training-manager.herokuapp.com
+### Link: 
+https://fatec-training-manager.herokuapp.com
