@@ -13,7 +13,7 @@ Repositório dedicado ao projeto da disciplina de Laboratório de Engenharia de 
 - MySQL
 
 ### Hosting:
-Heroku
+- Heroku
 
 ### Link: 
-https://fatec-training-manager.herokuapp.com
+- https://fatec-training-manager.herokuapp.com
