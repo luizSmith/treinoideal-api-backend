@@ -4,4 +4,6 @@ const PersonalController = require("../controllers/PersonalController");
 
 router.get("/personal", PersonalController.index);
 
+router.post("/personal", PersonalController.create);
+
 module.exports = router;
