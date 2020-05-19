@@ -4,7 +4,7 @@
   "description": "Teste de deploy",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "npm sequelize db:migrate && nodemon app.js"
   },
   "author": "Japa Smith",
   "license": "ISC",
