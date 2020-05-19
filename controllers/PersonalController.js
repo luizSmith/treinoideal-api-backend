@@ -68,7 +68,7 @@ class PersonalController {
             return res.json({erro:"Parametro indefinido"});
         }
 
-        let {nome, email, senha, data, cref} = req.body;
+        let {nome, email, senha, data} = req.body;
 
         let salt = bcrypt.genSaltSync(10);
         senha = bcrypt.hashSync(senha,salt);
@@ -77,8 +77,7 @@ class PersonalController {
             nm_nome:nome,
             nm_email:email,
             nm_senha:senha,
-            dt_nascimento:data,
-            cd_cref:cref
+            dt_nascimento:data
         };
 
         try {
