@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     nm_email : {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           notEmpty: {
             msg: "Email Não pode ser nulo"
@@ -49,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     cd_cref : {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           notEmpty: {
             msg: "Senha Não pode ser nul"

@@ -15,6 +15,7 @@ module.exports = {
       nm_email: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       nm_senha: {
         type: Sequelize.STRING,
@@ -27,6 +28,7 @@ module.exports = {
       cd_cref: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       createdAt: {
         allowNull: false,
