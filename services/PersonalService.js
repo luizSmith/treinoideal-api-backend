@@ -18,6 +18,34 @@ class PersonalService {
         let result = await this.Personal.create(per);
         return result;
     }
+
+    async lista() {
+        let result = await this.Personal.findAll();
+        return result;
+    }
+
+    async detalhes (id) {
+        let result = await this.Personal.findByPk(id);
+        return result;
+    }
+
+    async atualiza(id,dados) {
+        let result = await this.Personal.update(dados,{
+            where: {
+                cd_personal: id
+            }
+        });
+        return result;
+    }
+
+    async deleta(id) {
+        let result = await this.Personal.destroy({
+            where: {
+                cd_personal: id
+            }
+        });
+        return result;
+    }
 }
 
 module.exports = new PersonalService();

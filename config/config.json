@@ -5,7 +5,8 @@
     "database": "db_personal_dev",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "timezone": "-03:00"
   },
   "test": {
     "username": "root",

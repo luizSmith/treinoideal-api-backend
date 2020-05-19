@@ -6,4 +6,10 @@ router.get("/personal", PersonalController.index);
 
 router.post("/personal", PersonalController.create);
 
+router.get("/personal/:id", PersonalController.detals);
+
+router.put("/personal/:id", PersonalController.update);
+
+router.delete("/personal/:id", PersonalController.delete);
+
 module.exports = router;
