@@ -8,6 +8,7 @@ const PersonalRouter = require("./routes/PersonalRouter");
 const AparelhoRouter = require("./routes/AparelhoRouter");
 const UfRouter = require("./routes/UfRouter");
 const ExercicioRouter = require("./routes/ExercicioRouter");
+const CepRouter = require("./routes/CepRouter");
 
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -18,6 +19,7 @@ app.use("/",PersonalRouter);
 app.use("/",AparelhoRouter);
 app.use("/",UfRouter);
 app.use("/",ExercicioRouter);
+app.use("/",CepRouter);
 
 // Router
 app.get("/",function(req,res){
