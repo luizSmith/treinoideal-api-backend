@@ -6,6 +6,7 @@ const session = require("express-session");
 //Router
 const PersonalRouter = require("./routes/PersonalRouter");
 const AparelhoRouter = require("./routes/AparelhoRouter");
+const UfRouter = require("./routes/UfRouter");
 
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 //Routes
 app.use("/",PersonalRouter);
 app.use("/",AparelhoRouter);
+app.use("/",UfRouter);
 
 // Router
 app.get("/",function(req,res){
