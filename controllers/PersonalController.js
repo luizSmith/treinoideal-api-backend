@@ -46,7 +46,7 @@ class PersonalController {
         let id = req.params.id;
 
         if (isNaN(id)) {
-            res.statusCode = 415;
+            res.statusCode = 404;
             return res.json({erro:"Parametro indefinido"})
         }
 
@@ -64,7 +64,7 @@ class PersonalController {
         let id = req.params.id;
 
         if (isNaN(id)) {
-            res.statusCode = 415;
+            res.statusCode = 404;
             return res.json({erro:"Parametro indefinido"});
         }
 
@@ -97,7 +97,7 @@ class PersonalController {
         let id = req.params.id;
 
         if (isNaN(id)) {
-            res.statusCode = 415;
+            res.statusCode = 404;
             return res.json({erro:"Parametro indefinido"});
         }
 
