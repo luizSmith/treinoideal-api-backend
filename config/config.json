@@ -17,11 +17,6 @@
     "operatorsAliases": false
   },
   "production": {
-    "username": "bb8cbbeb7b814a",
-    "password": "914dc52e",
-    "database": "heroku_b74e7cd731e55d2",
-    "host": "us-cdbr-east-06.cleardb.net",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "use_env_variable": "CLEARDB_DATABASE_URL"
   }
 }
