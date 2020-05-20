@@ -12,13 +12,17 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         notEmpty: {
-          msg: "Nome do estado NÃ£o pode ser nulo"
+          msg: "Nome do estado não pode ser nulo"
         }
       }
     }
   }, {});
   UF.associate = function(models) {
     // associations can be defined here
+    UF.hasMany(models.CEP, {
+      foreignKey: 'sg_uf',
+      onDelete: 'CASCADE'
+    });
   };
   return UF;
 };
