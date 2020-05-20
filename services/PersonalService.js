@@ -16,6 +16,11 @@ class PersonalService {
         };
 
         let result = await this.Personal.create(per);
+
+        if (result == undefined) {
+            throw "Bad Request";
+        }
+
         return result;
     }
 
