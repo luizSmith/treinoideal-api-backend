@@ -23,8 +23,20 @@ app.use("/",CepRouter);
 
 // Router
 app.get("/",function(req,res){
-     console.log("AplicaÃ§Ã£o rodando com sucesso");
+     console.log("Aplicação rodando com sucesso");
      res.send("Hello World!");
+});
+
+app.use(function (req, resp, next) {
+    resp.status(404).render("notFound");
+});
+
+app.use(function (req, res, next) {
+    res.hender('Access-Control-Allow-Origin', '*');
+    res.hender('Access-Control-Allow-Credentials', true);
+    res.hender('Access-Control-Allow-Methods', 'GET, POST, PUT DELETE');
+    res.hender('Access-Control-Allow-Headers', 'Content-Type');
+    next();
 });
 
 app.listen(process.env.PORT || 3000,function(erro){
