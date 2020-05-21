@@ -12,9 +12,6 @@ class UfService {
 
     async detalhes (id) {
         let result = await this.Uf.findByPk(id);
-        if (result == undefined) {
-            throw "Bad Request"
-        }
         return result;
     }
 }

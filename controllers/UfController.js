@@ -1,5 +1,6 @@
 const UfService = require("../services/UfService");
 const validator = require("validator");
+const ResponseValidation = require("../Validation/ResponseValidation");
 class UfController {
 
     async index(req, res) {
@@ -18,13 +19,12 @@ class UfController {
 
         if (validator.isEmpty(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"})
+            return res.send("Not Found");
         }
 
         try {
             let result = await UfService.detalhes(id);
-            res.statusCode = 200;
-            res.json(result);
+            await ResponseValidation.detalhes(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
