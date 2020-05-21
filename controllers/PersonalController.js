@@ -101,7 +101,7 @@ class PersonalController {
         }
 
         try {
-            await PlansService.deleta(id);
+            let result = await PlansService.deleta(id);
             await ResponseValidation.delete(result,res);
         } catch (err) {
             res.statusCode = 400;

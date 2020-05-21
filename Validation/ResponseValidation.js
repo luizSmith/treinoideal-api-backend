@@ -25,7 +25,7 @@ class ResponseValidation {
             return res.send("Not Found");
         }
 
-        res.statusCode = 202;
+        res.statusCode = 200;
         res.send("Atualizado");
     }
 
@@ -35,7 +35,7 @@ class ResponseValidation {
             return res.send("Not Found");
         }
 
-        res.statusCode = 202;
+        res.statusCode = 200;
         res.send("Deletado");
     }
 
