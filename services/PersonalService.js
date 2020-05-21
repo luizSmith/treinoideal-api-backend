@@ -2,7 +2,7 @@ const Database = require("../models/index");
 
 class PersonalService {
     constructor() {
-        this.Personal = Database["Personal"];
+        this.Personal = Database["tb_personal"];
     }
 
     async insert(personal) {

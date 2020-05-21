@@ -2,7 +2,7 @@ const Database = require("../models/index");
 
 class AparelhoService {
     constructor() {
-        this.Aparelho = Database["Aparelho"];
+        this.Aparelho = Database["tb_aparelho"];
     }
 
     async lista() {

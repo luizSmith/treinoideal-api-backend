@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Exercicio = sequelize.define('Exercicio', {
+  const Exercicio = sequelize.define('tb_exercicio', {
     cd_exercicio: {
       allowNull: false,
       autoIncrement: true,
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Exercicio.associate = function(models) {
     // associations can be defined here
-    Exercicio.belongsTo(models.Aparelho,{
+    Exercicio.belongsTo(models.tb_aparelho,{
       foreignKey: 'cd_aparelho',
       onDelete: "CASCADE",
       onUpdate: "CASCADE"

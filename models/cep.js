@@ -1,10 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const CEP = sequelize.define('CEP', {
+  const CEP = sequelize.define('tb_cep', {
     cd_cep: {
       allowNull: false,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
           msg: "Sigla estado não pode ser nulo"
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   CEP.associate = function(models) {
     // associations can be defined here
-    CEP.belongsTo(models.UF,{
+    CEP.belongsTo(models.tb_uf,{
       foreignKey: 'sg_uf',
       onDelete: "CASCADE",
       onUpdate: "CASCADE"

@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const UF = sequelize.define('UF', {
+  const UF = sequelize.define('tb_uf', {
     sg_uf: {
       allowNull: false,
       primaryKey: true,
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   UF.associate = function(models) {
     // associations can be defined here
-    UF.hasMany(models.CEP, {
+    UF.hasMany(models.tb_cep, {
       foreignKey: 'sg_uf',
       onDelete: 'CASCADE'
     });

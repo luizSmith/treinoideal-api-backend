@@ -3,7 +3,7 @@ const UfService = require("./UfService");
 
 class CepService {
     constructor() {
-        this.Cep = Database["CEP"];
+        this.Cep = Database["tb_cep"];
     }
 
     async insert(personal) {

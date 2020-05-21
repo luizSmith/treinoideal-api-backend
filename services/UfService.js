@@ -2,7 +2,7 @@ const Database = require("../models/index");
 
 class UfService {
     constructor() {
-        this.Uf = Database["UF"];
+        this.Uf = Database["tb_uf"];
     }
 
     async lista() {

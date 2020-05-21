@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Aparelho = sequelize.define('Aparelho', {
+  const Aparelho = sequelize.define('tb_aparelho', {
     cd_aparelho: {
       allowNull: false,
       autoIncrement: true,
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Aparelho.associate = function(models) {
     // associations can be defined here
-    Aparelho.hasMany(models.Exercicio, {
+    Aparelho.hasMany(models.tb_exercicio, {
       foreignKey: 'cd_aparelho',
       onDelete: 'CASCADE'
     });

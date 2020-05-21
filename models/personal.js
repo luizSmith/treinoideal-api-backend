@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Personal = sequelize.define('Personal', {
+  const Personal = sequelize.define('tb_personal', {
     cd_personal: {
       allowNull: false,
       autoIncrement: true,
