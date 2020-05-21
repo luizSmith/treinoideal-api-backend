@@ -1,40 +1,28 @@
-const PlansService = require("../services/PersonalService");
-const bcrypt = require('bcryptjs');
+const CepService = require("../services/CepService");
 const validator = require("validator");
-const ResponseValidation = require("../Validation/ResponseValidation");
-class PersonalController {
+class CepController {
     async create(req, res) {
-        let {nome, email, senha, data, cref} = req.body;
-
-        let salt = bcrypt.genSaltSync(10);
-        senha = bcrypt.hashSync(senha,salt);
+        let {cep, longra, bairro, cidade, uf} = req.body;
 
         let per = {
-            nome,
-            email,
-            senha,
-            data,
-            cref
+            cod:cep,
+            longra,
+            bairro,
+            cidade,
+            uf
         };
 
         try {
-            let result = await PlansService.insert(per);
-
-            await ResponseValidation.insert(result,res);
-
-            res.json({
-                codigo:result.cd_personal,
-                nome:result.nm_personal,
-                email:result.nm_email
-            });
+            let result = await CepService.insert(per);
+            res.statusCode = 201;
+            res.json(result);
         } catch(err) {
             res.statusCode = 400;
             res.json({erro:err})
         }
         
     }
-
-    // sem retorno não é erro
+/*
     async index(req, res) {
         try {
             let result = await PlansService.lista();
@@ -51,12 +39,13 @@ class PersonalController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.send("Not Found");
+            return res.json({erro:"Parametro indefinido"})
         }
 
         try {
             let result = await PlansService.detalhes(id);
-            await ResponseValidation.detalhes(result,res);
+            res.statusCode = 200;
+            res.json(result);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
@@ -68,7 +57,7 @@ class PersonalController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.send("Not Found");
+            return res.json({erro:"Parametro indefinido"});
         }
 
         let {nome, email, senha, data} = req.body;
@@ -84,8 +73,12 @@ class PersonalController {
         };
 
         try {
-            let result = await PlansService.atualiza(id,dados);
-            await ResponseValidation.update(result,res);
+            await PlansService.atualiza(id,dados);
+            res.statusCode = 202;
+            res.json({
+                "id":id,
+                "message":"Personal atualizado"
+            });
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
@@ -97,17 +90,22 @@ class PersonalController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.send("Not Found");
+            return res.json({erro:"Parametro indefinido"});
         }
 
         try {
             await PlansService.deleta(id);
-            await ResponseValidation.delete(result,res);
+            res.statusCode = 200;
+            res.json({
+                "id":id,
+                "message":"Personal Deletado"
+            });
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
         }
     }
+    */
 }
 
-module.exports = new PersonalController();
+module.exports = new CepController();
