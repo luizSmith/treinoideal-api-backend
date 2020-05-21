@@ -1,6 +1,7 @@
 const PlansService = require("../services/PersonalService");
 const bcrypt = require('bcryptjs');
 const validator = require("validator");
+const ResponseValidation = require("../Validation/ResponseValidation");
 class PersonalController {
     async create(req, res) {
         let {nome, email, senha, data, cref} = req.body;
@@ -18,7 +19,9 @@ class PersonalController {
 
         try {
             let result = await PlansService.insert(per);
-            res.statusCode = 201;
+
+            await ResponseValidation.insert(result,res);
+
             res.json({
                 codigo:result.cd_personal,
                 nome:result.nm_personal,
@@ -31,6 +34,7 @@ class PersonalController {
         
     }
 
+    // sem retorno não é erro
     async index(req, res) {
         try {
             let result = await PlansService.lista();
@@ -47,13 +51,12 @@ class PersonalController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"})
+            return res.send("Not Found");
         }
 
         try {
             let result = await PlansService.detalhes(id);
-            res.statusCode = 200;
-            res.json(result);
+            await ResponseValidation.detalhes(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
@@ -65,7 +68,7 @@ class PersonalController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"});
+            return res.send("Not Found");
         }
 
         let {nome, email, senha, data} = req.body;
@@ -81,12 +84,8 @@ class PersonalController {
         };
 
         try {
-            await PlansService.atualiza(id,dados);
-            res.statusCode = 202;
-            res.json({
-                "id":id,
-                "message":"Personal atualizado"
-            });
+            let result = await PlansService.atualiza(id,dados);
+            await ResponseValidation.update(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
@@ -98,16 +97,12 @@ class PersonalController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"});
+            return res.send("Not Found");
         }
 
         try {
             await PlansService.deleta(id);
-            res.statusCode = 200;
-            res.json({
-                "id":id,
-                "message":"Personal Deletado"
-            });
+            await ResponseValidation.delete(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
