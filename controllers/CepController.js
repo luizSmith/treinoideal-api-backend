@@ -1,4 +1,5 @@
 const CepService = require("../services/CepService");
+const ResponseValidation = require("../Validation/ResponseValidation");
 const validator = require("validator");
 class CepController {
     async create(req, res) {
@@ -34,24 +35,23 @@ class CepController {
         }
     }
 
-/*    async detals(req, res) {
+   async detals(req, res) {
         let id = req.params.id;
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"})
+            return res.send("Not Found");
         }
 
         try {
-            let result = await PlansService.detalhes(id);
-            res.statusCode = 200;
-            res.json(result);
+            let result = await CepService.detalhes(id);
+            await ResponseValidation.detalhes(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
         }
     }
-
+/* 
     async update(req, res) {
         let id = req.params.id;
 

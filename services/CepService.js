@@ -34,12 +34,12 @@ class CepService {
         let result = await this.Cep.findAll();
         return result;
     }
-/*
+
     async detalhes (id) {
         let result = await this.Cep.findByPk(id);
         return result;
     }
-
+/*
     async atualiza(id,dados) {
         let result = await this.Cep.update(dados,{
             where: {
