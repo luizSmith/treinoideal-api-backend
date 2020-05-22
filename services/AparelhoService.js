@@ -12,9 +12,6 @@ class AparelhoService {
 
     async detalhes (id) {
         let result = await this.Aparelho.findByPk(id);
-        if (result == undefined) {
-            throw "Bad Request"
-        }
         return result;
     }
 }
