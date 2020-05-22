@@ -22,10 +22,10 @@ class CepController {
         }
         
     }
-/*
+
     async index(req, res) {
         try {
-            let result = await PlansService.lista();
+            let result = await CepService.lista();
             res.statusCode = 200;
             res.json(result);
         } catch (err) {
@@ -34,7 +34,7 @@ class CepController {
         }
     }
 
-    async detals(req, res) {
+/*    async detals(req, res) {
         let id = req.params.id;
 
         if (isNaN(id)) {

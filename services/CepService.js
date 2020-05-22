@@ -29,12 +29,12 @@ class CepService {
         }
         
     }
-    /*
+    
     async lista() {
         let result = await this.Cep.findAll();
         return result;
     }
-
+/*
     async detalhes (id) {
         let result = await this.Cep.findByPk(id);
         return result;
