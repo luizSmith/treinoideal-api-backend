@@ -51,34 +51,27 @@ class CepController {
             res.json({erro:err})
         }
     }
-/* 
+
     async update(req, res) {
         let id = req.params.id;
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"});
+            return res.send("Not Found");
         }
 
-        let {nome, email, senha, data} = req.body;
-
-        let salt = bcrypt.genSaltSync(10);
-        senha = bcrypt.hashSync(senha,salt);
+        let {longra, bairro, cidade, uf} = req.body;
 
         let dados = {
-            nm_nome:nome,
-            nm_email:email,
-            nm_senha:senha,
-            dt_nascimento:data
+            nm_longradouro:longra,
+            nm_bairro:bairro,
+            nm_cidade:cidade,
+            sg_uf:uf
         };
 
         try {
-            await PlansService.atualiza(id,dados);
-            res.statusCode = 202;
-            res.json({
-                "id":id,
-                "message":"Personal atualizado"
-            });
+            let result = await CepService.atualiza(id,dados);
+            await ResponseValidation.update(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
@@ -90,22 +83,17 @@ class CepController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"});
+            return res.send("Not Found");
         }
 
         try {
-            await PlansService.deleta(id);
-            res.statusCode = 200;
-            res.json({
-                "id":id,
-                "message":"Personal Deletado"
-            });
+            let result = await CepService.deleta(id);
+            await ResponseValidation.delete(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})
         }
     }
-    */
 }
 
 module.exports = new CepController();

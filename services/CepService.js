@@ -39,11 +39,11 @@ class CepService {
         let result = await this.Cep.findByPk(id);
         return result;
     }
-/*
+
     async atualiza(id,dados) {
         let result = await this.Cep.update(dados,{
             where: {
-                cd_personal: id
+                cd_cep: id
             }
         });
         return result;
@@ -52,12 +52,12 @@ class CepService {
     async deleta(id) {
         let result = await this.Cep.destroy({
             where: {
-                cd_personal: id
+                cd_cep: id
             }
         });
         return result;
     }
-    */
+
 }
 
 module.exports = new CepService();
