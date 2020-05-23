@@ -31,8 +31,8 @@ app.use("/",CepRouter);
 
 // Router
 app.get("/",function(req,res){
-     console.log("Aplicação rodando com sucesso");
-     res.send("Hello World!");
+     console.log("Aplicaï¿½ï¿½o rodando com sucesso");
+     res.send("Hello, World!");
 });
 
 app.use(function (req, resp, next) {
