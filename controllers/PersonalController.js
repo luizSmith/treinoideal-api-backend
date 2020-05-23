@@ -1,13 +1,9 @@
 const PlansService = require("../services/PersonalService");
-const bcrypt = require('bcryptjs');
 const validator = require("validator");
 const ResponseValidation = require("../Validation/ResponseValidation");
 class PersonalController {
     async create(req, res) {
         let {nome, email, senha, data, cref} = req.body;
-
-        let salt = bcrypt.genSaltSync(10);
-        senha = bcrypt.hashSync(senha,salt);
 
         let per = {
             nome,

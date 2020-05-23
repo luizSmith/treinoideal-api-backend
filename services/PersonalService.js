@@ -1,4 +1,5 @@
 const Database = require("../models/index");
+const bcrypt = require('bcryptjs');
 
 class PersonalService {
     constructor() {
@@ -7,6 +8,12 @@ class PersonalService {
 
     async insert(personal) {
         let {nome, email, senha, data, cref} = personal;
+
+        if (senha != undefined) {
+            let salt = bcrypt.genSaltSync(10);
+            senha = bcrypt.hashSync(senha,salt);
+        }
+
         let per = {
             nm_personal:nome,
             nm_email:email,
@@ -16,11 +23,6 @@ class PersonalService {
         };
 
         let result = await this.Personal.create(per);
-
-        if (result == undefined) {
-            throw "Bad Request";
-        }
-
         return result;
     }
 
