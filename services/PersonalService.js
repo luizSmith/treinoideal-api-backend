@@ -9,10 +9,7 @@ class PersonalService {
     async insert(personal) {
         let {nome, email, senha, data, cref} = personal;
 
-        if (senha != undefined) {
-            let salt = bcrypt.genSaltSync(10);
-            senha = bcrypt.hashSync(senha,salt);
-        }
+        senha = await this.encripta(senha);
 
         let per = {
             nm_personal:nome,
@@ -52,6 +49,15 @@ class PersonalService {
             }
         });
         return result;
+    }
+
+    async encripta(senha) {
+        if (senha != undefined) {
+            let salt = bcrypt.genSaltSync(10);
+            senha = bcrypt.hashSync(senha,salt);
+        }
+
+        return senha;
     }
 }
 
