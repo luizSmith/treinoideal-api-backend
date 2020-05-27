@@ -86,6 +86,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
       onUpdate: "CASCADE"
     });
+
+    Aluno.hasMany(models.tb_horario, {
+      foreignKey: 'cd_aluno',
+      onDelete: 'CASCADE'
+    });
   };
   return Aluno;
 };

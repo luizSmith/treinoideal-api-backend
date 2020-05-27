@@ -60,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Personal.associate = function(models) {
     // associations can be defined here
+    Personal.hasMany(models.tb_horario, {
+      foreignKey: 'cd_personal',
+      onDelete: 'CASCADE'
+    });
   };
   return Personal;
 };
