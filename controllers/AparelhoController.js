@@ -1,4 +1,5 @@
 const AparelhoService = require("../services/AparelhoService");
+const ResponseValidation = require("../Validation/ResponseValidation");
 class AparelhoController {
 
     async index(req, res) {
@@ -17,13 +18,12 @@ class AparelhoController {
 
         if (isNaN(id)) {
             res.statusCode = 404;
-            return res.json({erro:"Parametro indefinido"})
+            return res.send("Not Found");
         }
 
         try {
             let result = await AparelhoService.detalhes(id);
-            res.statusCode = 200;
-            res.json(result);
+            ResponseValidation.detalhes(result,res);
         } catch (err) {
             res.statusCode = 400;
             res.json({erro:err})

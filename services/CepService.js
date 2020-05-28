@@ -11,8 +11,8 @@ class CepService {
 
         try {
 
-            await UfService.detalhes(uf);
-        
+            await this.verificaUF(uf)
+            
             let per = {
                 cd_cep:cod,
                 nm_longradouro:longra,
@@ -20,8 +20,9 @@ class CepService {
                 nm_cidade:cidade,
                 sg_uf:uf
             };
-
-            let result = await this.Cep.create(per);
+            
+            let result = await this.verificaCEP(per);
+            
             return result;
 
         } catch(erro) {
@@ -29,7 +30,7 @@ class CepService {
         }
         
     }
-    /*
+    
     async lista() {
         let result = await this.Cep.findAll();
         return result;
@@ -43,7 +44,7 @@ class CepService {
     async atualiza(id,dados) {
         let result = await this.Cep.update(dados,{
             where: {
-                cd_personal: id
+                cd_cep: id
             }
         });
         return result;
@@ -52,12 +53,35 @@ class CepService {
     async deleta(id) {
         let result = await this.Cep.destroy({
             where: {
-                cd_personal: id
+                cd_cep: id
             }
         });
         return result;
     }
-    */
+
+    async verificaUF(uf) {
+        let resposta = await UfService.detalhes(uf);
+        
+        if (resposta == undefined) {
+            throw "Estádo Inválido";
+        }
+
+        return true;
+    }
+
+    async verificaCEP(dados) {
+
+        let resposta = this.detalhes(dados.cd_cep);
+
+        if (resposta == undefined) {
+
+            return this.Cep.create(dados);
+
+        }
+
+        return resposta;       
+    }
+
 }
 
 module.exports = new CepService();

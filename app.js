@@ -9,6 +9,8 @@ const AparelhoRouter = require("./routes/AparelhoRouter");
 const UfRouter = require("./routes/UfRouter");
 const ExercicioRouter = require("./routes/ExercicioRouter");
 const CepRouter = require("./routes/CepRouter");
+const AlunoRouter = require("./routes/AlunoRouter");
+const HorarioRouter = require("./routes/HorarioRouter");
 
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -28,6 +30,8 @@ app.use("/",AparelhoRouter);
 app.use("/",UfRouter);
 app.use("/",ExercicioRouter);
 app.use("/",CepRouter);
+app.use("/",AlunoRouter);
+app.use("/",HorarioRouter);
 
 // Router
 app.get("/",function(req,res){
@@ -47,5 +51,5 @@ app.listen(process.env.PORT || 3000,function(erro){
     } else {
         console.log("servidor rodando com sucesso");
     }
-    console.log("servidor rodando com sucesso 23");
+    console.log("servidor rodando com sucesso 2");
 });

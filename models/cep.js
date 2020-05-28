@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       validate: {
         notEmpty: {
-          msg: "Sigla estado não pode ser nulo"
+          msg: "CEP estado não pode ser nulo"
         }
       }
     },
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Longradouro não pode ser nulo"
+          msg: "Longradouro n達o pode ser nulo"
         }
       }
     },
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Bairro não pode ser nulo"
+          msg: "Bairro n達o pode ser nulo"
         }
       }
     },
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Nome da cidade não pode ser nulo"
+          msg: "Nome da cidade n達o pode ser nulo"
         }
       }
     }
@@ -45,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'sg_uf',
       onDelete: "CASCADE",
       onUpdate: "CASCADE"
+    });
+
+    CEP.hasMany(models.tb_aluno, {
+      foreignKey: 'cd_cep',
+      onDelete: 'CASCADE'
     });
   };
   return CEP;
