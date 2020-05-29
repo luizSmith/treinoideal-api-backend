@@ -5,7 +5,7 @@ class CepController {
     async create(req, res) {
         let {cep, longra, bairro, cidade, uf} = req.body;
 
-        let per = {
+        let endereco = {
             cod:cep,
             longra,
             bairro,
@@ -14,8 +14,8 @@ class CepController {
         };
 
         try {
-            let result = await CepService.insert(per);
-            res.statusCode = 201;
+            let result = await CepService.insert(endereco);
+            await ResponseValidation.insert(result,res);
             res.json(result);
         } catch(err) {
             res.statusCode = 400;
