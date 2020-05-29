@@ -6,12 +6,22 @@ class UfService {
     }
 
     async lista() {
-        let result = await this.Uf.findAll();
+        let result = await this.Uf.findAll({
+            attributes: [
+                ['sg_uf', 'sigla'],
+                ['nm_estado','estado']
+            ]
+        });
         return result;
     }
 
     async detalhes (id) {
-        let result = await this.Uf.findByPk(id);
+        let result = await this.Uf.findByPk(id,{
+            attributes: [
+                ['sg_uf', 'sigla'],
+                ['nm_estado','estado']
+            ]
+        });
         return result;
     }
 }
