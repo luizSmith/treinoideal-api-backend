@@ -17,6 +17,7 @@ class UfService {
 
     async detalhes (id) {
         let result = await this.Uf.findByPk(id,{
+            raw:true,
             attributes: [
                 ['sg_uf', 'sigla'],
                 ['nm_estado','estado']
