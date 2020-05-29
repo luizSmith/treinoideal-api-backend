@@ -5,7 +5,7 @@ class PersonalController {
     async create(req, res) {
         let {nome, email, senha, data, cref} = req.body;
 
-        let per = {
+        let personal = {
             nome,
             email,
             senha,
@@ -14,7 +14,7 @@ class PersonalController {
         };
 
         try {
-            let result = await PlansService.insert(per);
+            let result = await PlansService.insert(personal);
 
             await ResponseValidation.insert(result,res);
 
@@ -69,18 +69,15 @@ class PersonalController {
 
         let {nome, email, senha, data} = req.body;
 
-        let salt = bcrypt.genSaltSync(10);
-        senha = bcrypt.hashSync(senha,salt);
-
-        let dados = {
-            nm_nome:nome,
-            nm_email:email,
-            nm_senha:senha,
-            dt_nascimento:data
+        let personal = {
+            nome,
+            email,
+            senha,
+            data
         };
 
         try {
-            let result = await PlansService.atualiza(id,dados);
+            let result = await PlansService.atualiza(id,personal);
             await ResponseValidation.update(result,res);
         } catch (err) {
             res.statusCode = 400;

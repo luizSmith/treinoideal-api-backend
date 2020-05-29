@@ -14,7 +14,8 @@
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "timezone": "-03:00"
   },
   "production": {
     "username": "bb8cbbeb7b814a",
@@ -22,6 +23,7 @@
     "database": "heroku_b74e7cd731e55d2",
     "host": "us-cdbr-east-06.cleardb.net",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "timezone": "-03:00"
   }
 }
