@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Horario = sequelize.define('tb_horario', {
-    cd_aluno: {
+    cd_horario: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
