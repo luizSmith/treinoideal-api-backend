@@ -3,13 +3,13 @@ const router = express.Router();
 const HorarioController = require("../controllers/HorarioController");
 
 router.get("/horario", HorarioController.index);
-/*
-router.post("/aluno", AlunoController.create);
 
-router.get("/aluno/:id", AlunoController.detals);
+router.post("/horario", HorarioController.create);
 
-router.put("/aluno/:id", AlunoController.update);
+router.get("/horario/:id", HorarioController.detals);
 
-router.delete("/aluno/:id", AlunoController.delete);
-*/
+router.put("/horario/:id", HorarioController.update);
+
+router.delete("/horario/:id", HorarioController.delete);
+
 module.exports = router;
