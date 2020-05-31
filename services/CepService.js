@@ -25,8 +25,10 @@ class CepService {
             let dados = await this.verificaCEP(cep);
             
             let result = {
-                cep:dados.cd_cep,
-                longradouro:dados.nm_longradouro,
+                cep:dados.cep,
+                longradouro:dados.longradouro,
+                bairro:dados.bairro,
+                cidade:dados.cidade,
                 ...estado
             }
 
@@ -60,6 +62,7 @@ class CepService {
 
     async detalhes (id) {
         let result = await this.Cep.findByPk(id,{
+            raw:true,
             attributes: [
                 ['cd_cep', 'cep'],
                 ['nm_longradouro','longradouro'],

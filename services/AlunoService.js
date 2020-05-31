@@ -7,6 +7,7 @@ class AlunoService {
         this.Aluno = Database["tb_aluno"];
         this.Cep = Database["tb_cep"];
         this.UF = Database["tb_uf"];
+        
     }
 
     async insert(aluno) {
@@ -18,10 +19,7 @@ class AlunoService {
             senha,
             numero_endereco,
             cep,
-            longra,
-            bairro,
-            cidade,
-            uf
+            personal
         } = aluno;
 
         senha = await this.encripta(senha);
@@ -33,19 +31,18 @@ class AlunoService {
             nm_email:email,
             nm_senha:senha,
             cd_endereco:numero_endereco,
-            cd_cep:cep,
+            cd_cep:cep
         }
 
-        let endereco = {
-            cod:cep,
-            longra,
-            bairro,
-            cidade,
-            uf
+
+        try {
+
+            aluno = await this.Aluno.create(dados);
+            
+        } catch(erro) {
+            throw erro;
         }
 
-        endereco = await CepService.insert(endereco);
-        aluno = await this.Aluno.create(dados);
         let result = {
             codigo:aluno.cd_aluno,
             nome:aluno.nm_aluno,
@@ -53,13 +50,6 @@ class AlunoService {
             cpf:aluno.cd_cpf,
             email:aluno.nm_email,
             numero:aluno.cd_endereco,
-            cep:{
-                codigo:endereco.cd_cep,
-                longradouro:endereco.nm_longradouro,
-                bairro:endereco.nm_bairro,
-                cidade:endereco.nm_cidade,
-                sigla:endereco.sg_uf
-            }
         };
 
         return result;
@@ -148,33 +138,29 @@ class AlunoService {
             uf
         } = dados;
 
-        senha = await this.encripta(senha);
+        try {
 
-        let aluno = {
-            nm_aluno:nome,
-            dt_nascimento:nascimento,
-            cd_cpf:cpf,
-            nm_email:email,
-            nm_senha:senha,
-            cd_endereco:numero_endereco,
-            cd_cep:cep,
-        }
+            senha = await this.encripta(senha);
 
-        let endereco = {
-            cod:cep,
-            longra,
-            bairro,
-            cidade,
-            uf
-        }
-
-        await CepService.insert(endereco);
-        let result = await this.Aluno.update(aluno,{
-            where: {
-                cd_aluno: id
+            let aluno = {
+                nm_aluno:nome,
+                dt_nascimento:nascimento,
+                cd_cpf:cpf,
+                nm_email:email,
+                nm_senha:senha,
+                cd_endereco:numero_endereco,
+                cd_cep:cep,
             }
-        });
-        return result;
+
+            let result = await this.Aluno.update(aluno,{
+                where: {
+                    cd_aluno: id
+                }
+            });
+            return result;
+        }catch(erro) {
+            throw erro;
+        }
     }
 
     async deleta(id) {
@@ -194,6 +180,7 @@ class AlunoService {
 
         return senha;
     }
+
 }
 
 module.exports = new AlunoService();
