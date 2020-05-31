@@ -1,6 +1,6 @@
 const AlunoService = require("../services/AlunoService");
 const CepService = require("../services/CepService");
-const PersonalAlunoService = require("../services/PersonalAluno");
+const PersonalAlunoService = require("../services/PersonalAlunoService");
 const ResponseValidation = require("../Validation/ResponseValidation");
 
 class AlunoController {

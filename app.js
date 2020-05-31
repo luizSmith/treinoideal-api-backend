@@ -11,6 +11,7 @@ const ExercicioRouter = require("./routes/ExercicioRouter");
 const CepRouter = require("./routes/CepRouter");
 const AlunoRouter = require("./routes/AlunoRouter");
 const HorarioRouter = require("./routes/HorarioRouter");
+const PersonalAluno = require("./routes/PersonalAlunoRouter");
 
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -32,6 +33,7 @@ app.use("/",ExercicioRouter);
 app.use("/",CepRouter);
 app.use("/",AlunoRouter);
 app.use("/",HorarioRouter);
+app.use("/",PersonalAluno);
 
 // Router
 app.get("/",function(req,res){

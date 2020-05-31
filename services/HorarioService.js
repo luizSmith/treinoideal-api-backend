@@ -3,46 +3,112 @@ const Database = require("../models/index");
 class HorarioService {
     constructor() {
         this.Horario = Database["tb_horario"];
+        this.Personal = Database['tb_personal'];
+        this.Aluno = Database['tb_aluno'];
+        this.Associacao = Database['tb_personal_aluno'];
     }
 
     async insert(horario) {
         let {
-            aluno,
-            personal,
+            associacao,
             hora_inicial,
             hora_final,
             dia_semana,
             disponivel
         } = horario;
 
-        let hor = {
-            cd_aluno:aluno,
-            cd_personal:personal,
+        let hora = {
+            cd_personal_aluno:associacao,
             hr_inicial:hora_inicial,
             hr_final:hora_final,
             dd_semana:dia_semana,
             ic_disponivel:disponivel
         };
 
-        let result = await this.Horario.create(hor);
+        let result = await this.Horario.create(hora);
+        result = {
+            codigo:result.cd_horario,
+            associacao:result.cd_personal_aluno,
+            inicio:result.hr_inicial,
+            final:result.hr_final,
+            dia_semana:result.dd_semana
+        };
         return result;
         
     }
     
     async lista(){
-        let result = await this.Horario.findAll();
+        let result = await this.Horario.findAll({
+            attributes: [
+                ['cd_horario','codigo'], 
+                ['hr_inicial', 'inicio'],
+                ['hr_final', 'final'],
+                ['dd_semana', 'dia_semana']
+            ],
+            include: [{ 
+                model: this.Associacao,
+                required: true,
+                attributes: [
+                    ['cd_personal_aluno', 'associacao']
+                ],
+                include:[{
+                    model: this.Personal,
+                    required:true,
+                    attributes: [
+                        ['cd_personal', 'codigo'],
+                        ['nm_personal','nome']
+                    ]
+                },{
+                    model: this.Aluno,
+                    required:true,
+                    attributes: [
+                        ['cd_aluno', 'codigo'],
+                        ['nm_aluno','nome']
+                    ]
+                }]
+            }]
+        });
         return result;
     }
+
     async detalhes (id) {
-        let result = await this.Horario.findByPk(id);
+        let result = await this.Horario.findByPk(id,{
+            attributes: [
+                ['cd_horario','codigo'], 
+                ['hr_inicial', 'inicio'],
+                ['hr_final', 'final'],
+                ['dd_semana', 'dia_semana']
+            ],
+            include: [{ 
+                model: this.Associacao,
+                required: true,
+                attributes: [
+                    ['cd_personal_aluno', 'associacao']
+                ],
+                include:[{
+                    model: this.Personal,
+                    required:true,
+                    attributes: [
+                        ['cd_personal', 'codigo'],
+                        ['nm_personal','nome']
+                    ]
+                },{
+                    model: this.Aluno,
+                    required:true,
+                    attributes: [
+                        ['cd_aluno', 'codigo'],
+                        ['nm_aluno','nome']
+                    ]
+                }]
+            }]
+        });
         return result;
     }
 
     async atualiza(id,horario) {
 
         let {
-            aluno,
-            personal,
+            associacao,
             hora_inicial,
             hora_final,
             dia_semana,
@@ -50,8 +116,7 @@ class HorarioService {
         } = horario;
         
         let dados = {
-            cd_aluno:aluno,
-            cd_personal:personal,
+            cd_personal_aluno:associacao,
             hr_inicial:hora_inicial,
             hr_final:hora_final,
             dd_semana:dia_semana,

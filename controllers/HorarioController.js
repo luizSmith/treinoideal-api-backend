@@ -16,21 +16,17 @@ class HorarioController {
 
     async create(req, res) {
         let {
-            aluno,
-            personal,
+            associacao,
             hora_inicial,
             hora_final,
             dia_semana,
-            disponivel
         } = req.body;
 
         let horario = {
-            aluno,
-            personal,
+            associacao,
             hora_inicial,
             hora_final,
             dia_semana,
-            disponivel
         };
 
         try {
@@ -69,8 +65,7 @@ class HorarioController {
         }
 
         let {
-            aluno,
-            personal,
+            associacao,
             hora_inicial,
             hora_final,
             dia_semana,
@@ -78,8 +73,7 @@ class HorarioController {
         } = req.body;
 
         let dados = {
-            aluno,
-            personal,
+            associacao,
             hora_inicial,
             hora_final,
             dia_semana,

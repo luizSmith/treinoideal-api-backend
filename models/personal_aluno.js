@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Código do personal não pode ser nulo"
+          msg: "código do personal não pode ser nulo"
         }
       }
     },
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
             notEmpty: {
-              msg: "Código do personal não pode ser nulo"
+              msg: "código do personal não pode ser nulo"
             }
         }
     },
@@ -44,6 +44,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'cd_aluno',
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
+      });
+
+      PersonalAluno.hasMany(models.tb_horario, {
+        foreignKey: 'cd_personal_aluno',
+        onDelete: 'CASCADE'
       });
   };
   return PersonalAluno;

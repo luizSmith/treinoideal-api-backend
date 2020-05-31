@@ -17,6 +17,19 @@ class PersonalAlunoService {
         return result;
     }
 
+    async lista(dados) {
+
+        if (dados != undefined) {
+            dados = {
+                where:dados
+            };
+        }
+
+        let result = await this.PersonalAluno.findAll(dados);
+        return result;
+        
+    }
+
     async ativa_aluno(dados) {
         try {
             let result = await this.PersonalAluno.update({
