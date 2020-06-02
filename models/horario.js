@@ -7,18 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    cd_personal:{
-      type:DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: "Código do personal não pode ser nulo"
-        }
-      }
-    },
-    cd_aluno:{
-        type:DataTypes.INTEGER,
-    },
     hr_inicial:{
       type:DataTypes.TIME,
       allowNull: false,
@@ -49,28 +37,25 @@ module.exports = (sequelize, DataTypes) => {
     },
     ic_disponivel:{
         type:DataTypes.STRING(1),
-        allowNull: false,
         validate: {
-            isIn: [['0','1']],
-            notEmpty: {
-                msg: "hora final não pode ser nula"
-            }
+            isIn:{
+                args:[['0','1']],
+                msg: "O valor tem que ser 0 ou 1"
+            } ,
         }
+    },
+    cd_personal_aluno:{
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
   }, {});
   Horario.associate = function(models) {
     // associations can be defined here
-    Horario.belongsTo(models.tb_personal,{
-      foreignKey: 'cd_personal',
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE"
-    });
-
-    Horario.belongsTo(models.tb_aluno,{
-        foreignKey: 'cd_aluno',
+    Horario.belongsTo(models.tb_personal_aluno,{
+        foreignKey: 'cd_personal_aluno',
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
-  };
+  };    
   return Horario;
 };

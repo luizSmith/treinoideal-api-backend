@@ -1,4 +1,6 @@
 const AlunoService = require("../services/AlunoService");
+const CepService = require("../services/CepService");
+const PersonalAlunoService = require("../services/PersonalAlunoService");
 const ResponseValidation = require("../Validation/ResponseValidation");
 
 class AlunoController {
@@ -26,7 +28,8 @@ class AlunoController {
             longra,
             bairro,
             cidade,
-            uf
+            uf,
+            personal
         } = req.body;
 
         let aluno = {
@@ -36,15 +39,31 @@ class AlunoController {
             email,
             senha,
             numero_endereco,
-            cep,
+            cep
+        }
+
+        let endereco = {
+            cod:cep,
             longra,
             bairro,
             cidade,
             uf
-        }
+        }    
 
         try {
-            let result = await AlunoService.insert(aluno);
+            endereco = await CepService.insert(endereco);
+
+            aluno  = await AlunoService.insert(aluno);
+
+            let result = {...aluno,...endereco};
+
+            let associacao = {
+                aluno:result.codigo,
+                personal:personal,
+            }
+
+            await PersonalAlunoService.insert(associacao);
+
             res.statusCode = 201;
             res.json(result);
         } catch(err) {
@@ -80,17 +99,10 @@ class AlunoController {
         }
 
         let {
-            nome,
-            nascimento,
-            cpf,
-            email,
-            senha,
-            numero_endereco,
-            cep,
-            longra,
-            bairro,
-            cidade,
-            uf
+            nome,nascimento,cpf,email,senha,numero_endereco,
+            cep,longra, bairro,cidade,uf,
+            ativo,
+            personal
         } = req.body;
 
         let dados = {
@@ -100,14 +112,29 @@ class AlunoController {
             email,
             senha,
             numero_endereco,
-            cep,
+            cep
+        }
+
+        let endereco = {
+            cod:cep,
             longra,
             bairro,
             cidade,
             uf
         }
 
+        let ativa = {
+            ativo,
+            personal,
+            aluno:id
+        }
+
         try {
+
+            endereco = await CepService.insert(endereco);
+
+            await PersonalAlunoService.ativa_aluno(ativa);
+
             let result = await AlunoService.atualiza(id,dados);
             await ResponseValidation.update(result,res);
         } catch (err) {

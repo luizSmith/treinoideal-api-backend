@@ -1,32 +1,10 @@
-const CepService = require("../services/CepService");
+const AulaService = require("../services/AulaService");
 const ResponseValidation = require("../Validation/ResponseValidation");
-const validator = require("validator");
-class CepController {
-    async create(req, res) {
-        let {cep, longra, bairro, cidade, uf} = req.body;
 
-        let endereco = {
-            cod:cep,
-            longra,
-            bairro,
-            cidade,
-            uf
-        };
-
-        try {
-            let result = await CepService.insert(endereco);
-            await ResponseValidation.insert(result,res);
-            res.json(result);
-        } catch(err) {
-            res.statusCode = 400;
-            res.json({erro:err})
-        }
-        
-    }
-
+class AulaController {
     async index(req, res) {
         try {
-            let result = await CepService.lista();
+            let result = await AulaService.lista();
             res.statusCode = 200;
             res.json(result);
         } catch (err) {
@@ -35,18 +13,35 @@ class CepController {
         }
     }
 
-   async detals(req, res) {
+    async detals(req, res) {
         let id = req.params.id;
 
         if (isNaN(id)) {
             res.statusCode = 404;
             return res.send("Not Found");
         }
-
         try {
-            let result = await CepService.detalhes(id);
+            let result = await AulaService.detalhes(id);
             await ResponseValidation.detalhes(result,res);
         } catch (err) {
+            res.statusCode = 400;
+            res.json({erro:err})
+        }
+    }
+
+    async create(req, res) {
+        let {data,horario} = req.body;
+
+        let aula = {
+            data,
+            horario
+        };
+
+        try {
+            let result = await AulaService.insert(aula);
+            res.statusCode = 201;
+            res.json(result);
+        } catch(err) {
             res.statusCode = 400;
             res.json({erro:err})
         }
@@ -60,17 +55,16 @@ class CepController {
             return res.send("Not Found");
         }
 
-        let {longra, bairro, cidade, uf} = req.body;
+        let {data,horario,feito} = req.body;
 
-        let dados = {
-            nm_longradouro:longra,
-            nm_bairro:bairro,
-            nm_cidade:cidade,
-            sg_uf:uf
+        let aula = {
+            data,
+            horario,
+            feito
         };
 
         try {
-            let result = await CepService.atualiza(id,dados);
+            let result = await AulaService.atualiza(id,aula);
             await ResponseValidation.update(result,res);
         } catch (err) {
             res.statusCode = 400;
@@ -87,7 +81,7 @@ class CepController {
         }
 
         try {
-            let result = await CepService.deleta(id);
+            let result = await AulaService.deleta(id);
             await ResponseValidation.delete(result,res);
         } catch (err) {
             res.statusCode = 400;
@@ -96,4 +90,4 @@ class CepController {
     }
 }
 
-module.exports = new CepController();
+module.exports = new AulaController();

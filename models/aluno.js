@@ -87,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: "CASCADE"
     });
 
-    Aluno.hasMany(models.tb_horario, {
+    Aluno.hasMany(models.tb_personal_aluno, {
       foreignKey: 'cd_aluno',
       onDelete: 'CASCADE'
     });

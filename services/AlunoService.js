@@ -5,6 +5,9 @@ const CepService = require("./CepService");
 class AlunoService {
     constructor() {
         this.Aluno = Database["tb_aluno"];
+        this.Cep = Database["tb_cep"];
+        this.UF = Database["tb_uf"];
+        
     }
 
     async insert(aluno) {
@@ -16,10 +19,7 @@ class AlunoService {
             senha,
             numero_endereco,
             cep,
-            longra,
-            bairro,
-            cidade,
-            uf
+            personal
         } = aluno;
 
         senha = await this.encripta(senha);
@@ -31,32 +31,95 @@ class AlunoService {
             nm_email:email,
             nm_senha:senha,
             cd_endereco:numero_endereco,
-            cd_cep:cep,
+            cd_cep:cep
         }
 
-        let endereco = {
-            cod:cep,
-            longra,
-            bairro,
-            cidade,
-            uf
+
+        try {
+
+            aluno = await this.Aluno.create(dados);
+            
+        } catch(erro) {
+            throw erro;
         }
 
-        endereco = await CepService.insert(endereco);
-        let result = await this.Aluno.create(dados);
-        result.cd_cep = endereco;
+        let result = {
+            codigo:aluno.cd_aluno,
+            nome:aluno.nm_aluno,
+            nascimento:aluno.dt_nascimento,
+            cpf:aluno.cd_cpf,
+            email:aluno.nm_email,
+            numero:aluno.cd_endereco,
+        };
+
         return result;
         
     }
  
     async lista() {
-        let result = await this.Aluno.findAll();
+        let result = await this.Aluno.findAll({
+            attributes: [
+                ['cd_aluno','codigo'], 
+                ['nm_aluno', 'nome'],
+                ['nm_email', 'email'],
+                ['dt_nascimento', 'nascimento'],
+                ['cd_cpf', 'cpf'],
+                ['cd_endereco', 'numero']
+            ],
+            include: [ { 
+                model: this.Cep,
+                required: true,
+                
+                attributes: [
+                    ['cd_cep', 'cep'],
+                    ['nm_longradouro','longradouro'],
+                    ['nm_bairro','bairro'],
+                    ['nm_cidade','cidade']
+                ],
+                include: [ {
+                    model:this.UF,
+                    required: true,
+                    attributes: [
+                        ['sg_uf', 'sigla'],
+                        ['nm_estado','estado']
+                    ],
+                } ]
+                
+            } ]
+          });
         return result;
     }
 
     async detalhes (id) {
-        let result = await this.Aluno.findByPk(id);
-        result.cd_cep = await CepService.detalhes(result.cd_cep);
+        let result = await this.Aluno.findByPk(id,{
+            attributes: [
+                ['cd_aluno','codigo'], 
+                ['nm_aluno', 'nome'],
+                ['nm_email', 'email'],
+                ['dt_nascimento', 'nascimento'],
+                ['cd_cpf', 'cpf'],
+                ['cd_endereco', 'numero']
+            ],
+            include: [ { 
+                model: this.Cep,
+                required: true,
+                attributes: [
+                    ['cd_cep', 'cep'],
+                    ['nm_longradouro','longradouro'],
+                    ['nm_bairro','bairro'],
+                    ['nm_cidade','cidade']
+                ],
+                include: [ {
+                    model:this.UF,
+                    required: true,
+                    attributes: [
+                        ['sg_uf', 'sigla'],
+                        ['nm_estado','estado']
+                    ],
+                } ]
+                
+            } ]
+          });
         return result;
     }
 
@@ -75,33 +138,29 @@ class AlunoService {
             uf
         } = dados;
 
-        senha = await this.encripta(senha);
+        try {
 
-        let aluno = {
-            nm_aluno:nome,
-            dt_nascimento:nascimento,
-            cd_cpf:cpf,
-            nm_email:email,
-            nm_senha:senha,
-            cd_endereco:numero_endereco,
-            cd_cep:cep,
-        }
+            senha = await this.encripta(senha);
 
-        let endereco = {
-            cod:cep,
-            longra,
-            bairro,
-            cidade,
-            uf
-        }
-
-        await CepService.insert(endereco);
-        let result = await this.Aluno.update(aluno,{
-            where: {
-                cd_aluno: id
+            let aluno = {
+                nm_aluno:nome,
+                dt_nascimento:nascimento,
+                cd_cpf:cpf,
+                nm_email:email,
+                nm_senha:senha,
+                cd_endereco:numero_endereco,
+                cd_cep:cep,
             }
-        });
-        return result;
+
+            let result = await this.Aluno.update(aluno,{
+                where: {
+                    cd_aluno: id
+                }
+            });
+            return result;
+        }catch(erro) {
+            throw erro;
+        }
     }
 
     async deleta(id) {
@@ -121,6 +180,7 @@ class AlunoService {
 
         return senha;
     }
+
 }
 
 module.exports = new AlunoService();
