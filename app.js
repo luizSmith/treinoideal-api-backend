@@ -12,6 +12,10 @@ const CepRouter = require("./routes/CepRouter");
 const AlunoRouter = require("./routes/AlunoRouter");
 const HorarioRouter = require("./routes/HorarioRouter");
 
+//Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./models/swagger.json');
+
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -23,6 +27,9 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
+
+//Swagger
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
 app.use("/",PersonalRouter);
