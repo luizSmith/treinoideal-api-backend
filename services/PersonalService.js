@@ -87,6 +87,44 @@ class PersonalService {
 
         return senha;
     }
+
+    async validaSenha(login,senha) {
+        return bcrypt.compareSync(login,senha);        
+    }
+
+    async findPersonal(login) {
+        let {email,senha} = login;
+
+        let result = await this.Personal.findOne({
+            raw:true,
+            attributes: [
+                ['cd_personal','codigo'], 
+                ['nm_personal', 'nome'],
+                ['nm_senha','pwd'],
+                ['nm_email', 'email'],
+                ['dt_nascimento', 'nascimento'],
+                ['cd_cref', 'cref'],
+            ],
+            where:{
+                nm_email:email
+            }
+        });
+
+        let pwd = await this.validaSenha(senha,result.pwd);
+        
+        if (result != undefined && pwd) {
+            
+            return result = {
+                codigo:result.codigo,
+                email:result.email,
+                cref:result.cref
+            };
+
+        }
+
+        throw "Usuario não identificado";
+
+    }
 }
 
 module.exports = new PersonalService();
