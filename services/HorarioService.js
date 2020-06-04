@@ -37,7 +37,7 @@ class HorarioService {
         
     }
     
-    async lista(){
+    async lista(id){
         let result = await this.Horario.findAll({
             attributes: [
                 ['cd_horario','codigo'], 
@@ -57,7 +57,10 @@ class HorarioService {
                     attributes: [
                         ['cd_personal', 'codigo'],
                         ['nm_personal','nome']
-                    ]
+                    ],
+                    where:{
+                        cd_personal:id
+                    }
                 },{
                     model: this.Aluno,
                     required:true,

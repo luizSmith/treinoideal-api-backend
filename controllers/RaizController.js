@@ -20,7 +20,8 @@ class RaizController {
             });
 
             res.status(200).send({
-                auth: true, 
+                auth: true,
+                codigo:result.codigo,
                 token: token
             });
 
