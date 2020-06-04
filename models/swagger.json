@@ -1,0 +1,194 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "treinoideal-api-backend",
+        "description": "API do projeto da disciplina de Laboratório de Engenharia de Software do curso de Análise e Desenvolvimento de Sistemas da FATEC Praia Grande.",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/personal": {
+            "get": {
+                "tags": [
+                    "Personal"
+                ],
+                "summary": "Obtém todos os Personal Trainer's cadastrados",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Personal"
+                ],
+                "summary": "Cria um novo Personal Trainer no sistema",
+                "requestBody": {
+                    "description": "Objeto Personal",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Personal"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+        "/personal/{id}":{
+            "get": {
+                "tags": [
+                    "Personal"
+                ],
+                "summary": "Obtém todos os Personal Trainer's cadastrados pelo id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Código do Personal"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Personal"
+                ],
+                "summary": "Atualiza o Personal Trainer pelo id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Código do Personal"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Objeto Personal",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/PersonalUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Personal"
+                ],
+                "summary": "Exclui o Personal Trainer pelo id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Código do Personal"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Personal": {
+            "type": "object",
+            "properties": {
+                "nome": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "senha": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "cref": {
+                    "type": "string"
+                }
+            }
+        },
+        "PersonalUpdate": {
+            "type": "object",
+            "properties": {
+                "nome": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "senha": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -15,6 +15,9 @@ const PersonalAlunoRouter = require("./routes/PersonalAlunoRouter");
 const AulaRouter = require("./routes/AulaRouter");
 
 const RaizRouter = require("./routes/RaizRouter");
+//Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./models/swagger.json');
 
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -27,6 +30,9 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
+
+//Swagger
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Routes
 app.use("/",PersonalRouter);
@@ -43,8 +49,8 @@ app.use("/",RaizRouter);
 
 // Router
 app.get("/",function(req,res){
-     console.log("Aplicação rodando com sucesso");
-     res.send("Hello World!");
+     console.log("Aplicaï¿½ï¿½o rodando com sucesso");
+     res.send("Hello, World!");
 });
 
 app.use(function (req, resp, next) {
