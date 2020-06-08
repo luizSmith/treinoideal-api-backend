@@ -31,7 +31,10 @@ module.exports = (sequelize, DataTypes) => {
     cd_cpf:{
       type:DataTypes.STRING(14),
       allowNull: false,
-      unique: true,
+      unique:{
+        args:true,
+        msg:"CPF já existe"
+      },
       validate: {
         notEmpty: {
           msg: "CPF não pode ser nulo"
@@ -41,7 +44,10 @@ module.exports = (sequelize, DataTypes) => {
     nm_email:{
         type:DataTypes.STRING(80),
         allowNull: false,
-        unique: true,
+        unique:{
+          args:true,
+          msg:"Email já existe"
+        },
         validate: {
           notEmpty: {
             msg: "Email não pode ser nulo"

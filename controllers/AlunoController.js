@@ -2,6 +2,7 @@ const AlunoService = require("../services/AlunoService");
 const CepService = require("../services/CepService");
 const PersonalAlunoService = require("../services/PersonalAlunoService");
 const ResponseValidation = require("../Validation/ResponseValidation");
+const CPF = require('../Validation/CPFValidation');
 
 class AlunoController {
 
@@ -53,6 +54,8 @@ class AlunoController {
         try {
             endereco = await CepService.insert(endereco);
 
+            await CPF.verificaCPF(cpf);
+
             aluno  = await AlunoService.insert(aluno);
 
             let result = {...aluno,...endereco};
@@ -68,7 +71,7 @@ class AlunoController {
             res.json(result);
         } catch(err) {
             res.statusCode = 400;
-            res.json({erro:err})
+            res.json(err.errors)
         }
         
     }
@@ -133,6 +136,8 @@ class AlunoController {
 
             endereco = await CepService.insert(endereco);
 
+            await CPF.verificaCPF(cpf);
+
             await PersonalAlunoService.ativa_aluno(ativa);
 
             let result = await AlunoService.atualiza(id,dados);
@@ -158,10 +163,6 @@ class AlunoController {
             res.statusCode = 400;
             res.json({erro:err})
         }
-    }
-
-    async verificaCPF(cpf) {
-
     }
 }
 
