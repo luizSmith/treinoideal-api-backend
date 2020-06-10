@@ -18,7 +18,7 @@ class PersonalService {
             dt_nascimento:data,
             cd_cref:cref
         };
-
+        
         let result = await this.Personal.create(dados);
         return result;
     }
@@ -56,7 +56,7 @@ class PersonalService {
         senha = await this.encripta(senha);
 
         let dados = {
-            nm_nome:nome,
+            nm_personal:nome,
             nm_email:email,
             nm_senha:senha,
             dt_nascimento:data

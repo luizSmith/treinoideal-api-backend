@@ -1,6 +1,8 @@
 const PlansService = require("../services/PersonalService");
 const validator = require("validator");
 const ResponseValidation = require("../Validation/ResponseValidation");
+const DateValidation = require("../Validation/DateValidation");
+
 class PersonalController {
     async create(req, res) {
         let {nome, email, senha, data, cref} = req.body;
@@ -14,6 +16,8 @@ class PersonalController {
         };
 
         try {
+            personal.data = await DateValidation.format(data,"YYYY-MM-dd");
+
             let result = await PlansService.insert(personal);
 
             await ResponseValidation.insert(result,res);
@@ -24,81 +28,71 @@ class PersonalController {
                 email:result.nm_email
             });
         } catch(err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
         
     }
 
-    // sem retorno não é erro
     async index(req, res) {
         try {
             let result = await PlansService.lista();
             res.statusCode = 200;
             res.json(result);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
     async detals(req, res) {
         let id = req.params.id;
 
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
-
         try {
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await PlansService.detalhes(id);
             await ResponseValidation.detalhes(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
     async update(req, res) {
         let id = req.params.id;
 
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
-
         let {nome, email, senha, data} = req.body;
 
         let personal = {
             nome,
             email,
-            senha,
-            data
+            senha
         };
-
+        
         try {
+            await ResponseValidation.validaNumber(id,res);
+
+            if (data != undefined) {
+                personal.data = await DateValidation.format(data,"YYYY-MM-dd");
+            }
+            
             let result = await PlansService.atualiza(id,personal);
-            await ResponseValidation.update(result,res);
+
+            ResponseValidation.update(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
     async delete(req, res) {
         let id = req.params.id;
 
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
-
         try {
+
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await PlansService.deleta(id);
             await ResponseValidation.delete(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 }

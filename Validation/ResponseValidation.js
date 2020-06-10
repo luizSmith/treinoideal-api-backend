@@ -3,43 +3,79 @@ const validator = require("validator");
 class ResponseValidation {
     insert(req, res) {
         if (req == undefined) {
-            throw "Bad Request";
+            let response = {
+                "name": "ErroProcessoInsert",
+                "errors":[{
+                    "message": "Bad Request"
+                }]
+            };
+            throw response;
         }
 
-        res.statusCode = 201;
+        res.status(201);
     }
 
     detalhes(req, res) {
         if (req == undefined) {
-            res.statusCode = 404;
-            res.send("Not Found");
+            let response = {
+                "name": "ProcessoDetalhes",
+                "errors":[{
+                    "message": "Not Found"
+                }]
+            };
+
+            return res.status(404).json(response);
         }
 
-        res.statusCode = 200;
-        res.json(req);
+        res.status(200).json(req);
     }
 
     update(req, res) {
         if (req == 0) {
-            res.statusCode = 404;
-            return res.send("Not Found");
+            let response = {
+                "name": "ProcessoUpdate",
+                "errors":[{
+                    "message": "Not Found"
+                }]
+            };
+
+            return res.status(404).json(response);
         }
 
-        res.statusCode = 200;
-        res.send("Atualizado");
+        res.status(200).send("Atualizado");
     }
 
     delete(req, res) {
         if (req == 0) {
-            res.statusCode = 404;
-            return res.send("Not Found");
+            let response = {
+                "name": "ProcessoDelete",
+                "errors":[{
+                    "message": "Not Found"
+                }]
+            };
+
+            return res.status(404).json(response);
         }
 
         res.statusCode = 200;
         res.send("Deletado");
     }
 
-
+//Verifica se é um parametro numerico
+    validaNumber (req, res) {
+        if (isNaN(req)) {
+            throw res.status(404).send("Not Found");
+        }
+        return true;
+    }
+    
+//Verifica se é um parametro string
+    validaString (req, res) {
+        if (isNaN(req)) {
+            throw res.status(404).send("Not Found");
+        }
+        return true;
+    }
 }
 
 module.exports = new ResponseValidation();
