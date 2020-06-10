@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Longradouro n達o pode ser nulo"
+          msg: "Longradouro não pode ser nulo"
         }
       }
     },
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Bairro n達o pode ser nulo"
+          msg: "Bairro não pode ser nulo"
         }
       }
     },
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Nome da cidade n達o pode ser nulo"
+          msg: "Nome da cidade não pode ser nulo"
         }
       }
     }

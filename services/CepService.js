@@ -10,34 +10,24 @@ class CepService {
     async insert(personal) {
         let {cod, longra, bairro, cidade, uf} = personal;
 
-        try {
+        let cep = {
+            cd_cep:cod,
+            nm_longradouro:longra,
+            nm_bairro:bairro,
+            nm_cidade:cidade,
+            sg_uf:uf
+        };
 
-            let estado = await this.verificaUF(uf);
+        let dados = await this.verificaCEP(cep);
 
-            let cep = {
-                cd_cep:cod,
-                nm_longradouro:longra,
-                nm_bairro:bairro,
-                nm_cidade:cidade,
-                sg_uf:uf
-            };
-
-            let dados = await this.verificaCEP(cep);
-            
-            let result = {
-                cep:dados.cep,
-                longradouro:dados.longradouro,
-                bairro:dados.bairro,
-                cidade:dados.cidade,
-                ...estado
-            }
-
-            return result;
-
-        } catch(erro) {
-            throw erro;
+        let result = {
+            cep:dados.cep,
+            longradouro:dados.longradouro,
+            bairro:dados.bairro,
+            cidade:dados.cidade
         }
-        
+
+        return result;        
     }
     
     async lista() {
@@ -104,7 +94,14 @@ class CepService {
         let resposta = await UfService.detalhes(uf);
         
         if (resposta == undefined) {
-            throw "Estádo Inválido";
+
+            resposta = {
+                "name": "ErroProcesso",
+                "errors":[{
+                    "message": "Estado Inválido"
+                }]
+            };
+            throw resposta;
         }
 
         return resposta;
@@ -116,7 +113,14 @@ class CepService {
         
         if (resposta == undefined) {
 
-            return this.Cep.create(dados);
+            dados = await this.Cep.create(dados);
+
+            resposta = {
+                cep:dados.cd_cep,
+                longradouro:dados.nm_longradouro,
+                bairro:dados.nm_bairro,
+                cidade:dados.nm_cidade
+            }
 
         }
 
