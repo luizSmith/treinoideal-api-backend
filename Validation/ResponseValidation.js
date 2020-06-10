@@ -71,7 +71,7 @@ class ResponseValidation {
     
 //Verifica se é um parametro string
     validaString (req, res) {
-        if (isNaN(req)) {
+        if (!isNaN(req)) {
             throw res.status(404).send("Not Found");
         }
         return true;

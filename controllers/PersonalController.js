@@ -36,8 +36,7 @@ class PersonalController {
     async index(req, res) {
         try {
             let result = await PlansService.lista();
-            res.statusCode = 200;
-            res.json(result);
+            res.status(200).json(result);
         } catch (err) {
             res.status(400).json(err);
         }
