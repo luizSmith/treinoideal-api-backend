@@ -1,4 +1,6 @@
 'use strict';
+
+const moment = require('moment');
 module.exports = (sequelize, DataTypes) => {
   const Aluno = sequelize.define('tb_aluno', {
     cd_aluno: {
@@ -18,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     dt_nascimento:{
       type:DataTypes.DATEONLY,
+      get() {
+        return moment(this.getDataValue('dt_nascimento')).format("DD/MM/YYYY");
+      },
       allowNull: false,
       validate: {
         notEmpty: {
@@ -83,7 +88,19 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Cep estado não pode ser nulo"
           }
         }
-      }
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        get() {
+          return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY h:mm:ss');
+        },             
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        get() {
+          return moment(this.getDataValue('updatedAt')).format('DD/MM/YYYY h:mm:ss');
+        }
+      } 
   }, {});
   Aluno.associate = function(models) {
     // associations can be defined here
