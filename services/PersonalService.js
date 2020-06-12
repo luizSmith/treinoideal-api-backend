@@ -125,6 +125,21 @@ class PersonalService {
         throw "Usuario não identificado";
 
     }
+
+    async personalExists (id) {
+        let result = await this.Personal.findByPk(id);
+
+        if (result == undefined) {
+            throw {
+                "name": "ProcessoInsert",
+                "errors":[{
+                    "message": "Personal não existe"
+                }]
+            };
+        }
+
+        return result;
+    }
 }
 
 module.exports = new PersonalService();

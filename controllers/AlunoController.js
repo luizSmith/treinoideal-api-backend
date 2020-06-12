@@ -2,6 +2,7 @@ const AlunoService = require("../services/AlunoService");
 const CepService = require("../services/CepService");
 const PersonalAlunoService = require("../services/PersonalAlunoService");
 const ResponseValidation = require("../Validation/ResponseValidation");
+const PersonalService = require('../services/PersonalService');
 const CPF = require('../Validation/CPFValidation');
 
 class AlunoController {
@@ -9,11 +10,9 @@ class AlunoController {
     async index(req, res) {
         try {
             let result = await AlunoService.lista();
-            res.statusCode = 200;
-            res.json(result);
+            res.status(200).json(result);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
@@ -52,11 +51,13 @@ class AlunoController {
         }    
 
         try {
+            await PersonalService.personalExists(personal);
+
             endereco = await CepService.insert(endereco);
 
             await CPF.verificaCPF(cpf);
 
-            aluno  = await AlunoService.insert(aluno);
+            aluno = await AlunoService.insert(aluno);
 
             let result = {...aluno,...endereco};
 
@@ -65,13 +66,16 @@ class AlunoController {
                 personal:personal,
             }
 
-            await PersonalAlunoService.insert(associacao);
+            associacao = await PersonalAlunoService.insert(associacao);
 
-            res.statusCode = 201;
+            associacao.aluno = result;
+
+            result = associacao;
+            
+            await ResponseValidation.insert(result,res);
             res.json(result);
         } catch(err) {
-            res.statusCode = 400;
-            res.json(err.errors)
+            res.status(400).json(err);
         }
         
     }
@@ -79,27 +83,18 @@ class AlunoController {
     async detals(req, res) {
         let id = req.params.id;
 
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
-
         try {
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await AlunoService.detalhes(id);
             await ResponseValidation.detalhes(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
     async update(req, res) {
         let id = req.params.id;
-
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
 
         let {
             nome,nascimento,cpf,email,senha,numero_endereco,
@@ -133,6 +128,9 @@ class AlunoController {
         }
 
         try {
+            await ResponseValidation.validaNumber(id,res);
+
+            await PersonalService.personalExists(personal);
 
             endereco = await CepService.insert(endereco);
 
@@ -143,25 +141,20 @@ class AlunoController {
             let result = await AlunoService.atualiza(id,dados);
             await ResponseValidation.update(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
     async delete(req, res) {
         let id = req.params.id;
 
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
-
         try {
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await AlunoService.deleta(id);
             await ResponseValidation.delete(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 }

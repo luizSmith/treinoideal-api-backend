@@ -14,6 +14,12 @@ class PersonalAlunoService {
 
         let result = await this.PersonalAluno.create(associacao);
 
+        result = {
+            associacao:result.cd_personal_aluno,
+            personal:result.cd_personal,
+            aluno:result.cd_aluno
+        };
+
         return result;
     }
 

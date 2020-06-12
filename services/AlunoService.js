@@ -6,8 +6,7 @@ class AlunoService {
     constructor() {
         this.Aluno = Database["tb_aluno"];
         this.Cep = Database["tb_cep"];
-        this.UF = Database["tb_uf"];
-        
+        this.UF = Database["tb_uf"];        
     }
 
     async insert(aluno) {
@@ -18,8 +17,7 @@ class AlunoService {
             email,
             senha,
             numero_endereco,
-            cep,
-            personal
+            cep
         } = aluno;
 
         senha = await this.encripta(senha);
@@ -34,14 +32,7 @@ class AlunoService {
             cd_cep:cep
         }
 
-
-        try {
-
-            aluno = await this.Aluno.create(dados);
-            
-        } catch(erro) {
-            throw erro;
-        }
+        aluno = await this.Aluno.create(dados);
 
         let result = {
             codigo:aluno.cd_aluno,
@@ -62,7 +53,7 @@ class AlunoService {
                 ['cd_aluno','codigo'], 
                 ['nm_aluno', 'nome'],
                 ['nm_email', 'email'],
-                ['dt_nascimento', 'nascimento'],
+                [Database.Sequelize.fn('date_format', Database.Sequelize.col('dt_nascimento'), '%d/%m/%Y'), 'nascimento'],
                 ['cd_cpf', 'cpf'],
                 ['cd_endereco', 'numero']
             ],
@@ -96,7 +87,7 @@ class AlunoService {
                 ['cd_aluno','codigo'], 
                 ['nm_aluno', 'nome'],
                 ['nm_email', 'email'],
-                ['dt_nascimento', 'nascimento'],
+                [Database.Sequelize.fn('date_format', Database.Sequelize.col('dt_nascimento'), '%d/%m/%Y'), 'nascimento'],
                 ['cd_cpf', 'cpf'],
                 ['cd_endereco', 'numero']
             ],
@@ -116,9 +107,8 @@ class AlunoService {
                         ['sg_uf', 'sigla'],
                         ['nm_estado','estado']
                     ],
-                } ]
-                
-            } ]
+                } ]                
+            }]
           });
         return result;
     }
