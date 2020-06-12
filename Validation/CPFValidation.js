@@ -7,7 +7,12 @@ class CPFValidation {
             return true;
         }
 
-        throw 'CPF invalido';
+        throw {
+            "name": "Erro de validação",
+            "errors":[{
+                "message": "CPF invalido"
+            }]
+        };
     }
 }
 
