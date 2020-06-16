@@ -41,10 +41,10 @@ class HorarioService {
     
     async lista(id){
         let result = await this.Horario.findAll({
-            attributes: [
+            attributes: [              
                 ['cd_horario','codigo'], 
-                ['hr_inicial', 'inicio'],
-                ['hr_final', 'final'],
+                [Database.Sequelize.fn('date_format', Database.Sequelize.col('hr_inicial'), '%T'), 'inicio'],
+                [Database.Sequelize.fn('date_format', Database.Sequelize.col('hr_final'), '%T'), 'final'],
                 ['dd_semana', 'dia_semana']
             ],
             include: [{ 
@@ -80,8 +80,8 @@ class HorarioService {
         let result = await this.Horario.findByPk(id,{
             attributes: [
                 ['cd_horario','codigo'], 
-                ['hr_inicial', 'inicio'],
-                ['hr_final', 'final'],
+                [Database.Sequelize.fn('date_format', Database.Sequelize.col('hr_inicial'), '%T'), 'inicio'],
+                [Database.Sequelize.fn('date_format', Database.Sequelize.col('hr_final'), '%T'), 'final'],
                 ['dd_semana', 'dia_semana']
             ],
             include: [{ 
