@@ -1,4 +1,4 @@
-const validator = require("validator");
+﻿const validator = require("validator");
 
 class ResponseValidation {
     insert(req, res) {

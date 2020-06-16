@@ -4,20 +4,15 @@ const ResponseValidation = require("../Validation/ResponseValidation");
 class HorarioController {
 
     async index(req, res) {
-        let id = req.body.codigo;
-
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
+        let {id} = req.headers;
 
         try {
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await HorarioService.lista(id);
-            res.statusCode = 200;
-            res.json(result);
+            res.status(200).json(result);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
@@ -38,38 +33,30 @@ class HorarioController {
 
         try {
             let result = await HorarioService.insert(horario);
-            res.statusCode = 201;
+
+            await ResponseValidation.insert(result,res);
             res.json(result);
         } catch(err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
         
     }
     
     async detals(req, res) {
-        let id = req.params.id;
+        let {id} = req.params;
 
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
         try {
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await HorarioService.detalhes(id);
             await ResponseValidation.detalhes(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
     async update(req, res) {
-        let id = req.params.id;
-
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
+        let {id} = req.params;
 
         let {
             associacao,
@@ -88,28 +75,25 @@ class HorarioController {
         }
 
         try {
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await HorarioService.atualiza(id,dados);
             await ResponseValidation.update(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 
     async delete(req, res) {
-        let id = req.params.id;
-
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
+        let {id} = req.params;
 
         try {
+            await ResponseValidation.validaNumber(id,res);
+
             let result = await HorarioService.deleta(id);
             await ResponseValidation.delete(result,res);
         } catch (err) {
-            res.statusCode = 400;
-            res.json({erro:err})
+            res.status(400).json(err);
         }
     }
 

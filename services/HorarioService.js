@@ -6,6 +6,8 @@ class HorarioService {
         this.Personal = Database['tb_personal'];
         this.Aluno = Database['tb_aluno'];
         this.Associacao = Database['tb_personal_aluno'];
+        this.sequelize = Database.sequelize;
+        this.QueryTypes = Database.sequelize.QueryTypes;
     }
 
     async insert(horario) {

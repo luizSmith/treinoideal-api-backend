@@ -1,5 +1,4 @@
 const Database = require("../models/index");
-const {QueryTypes} = Database.sequelize;
 
 class PersonalAlunoService {
     constructor() {
