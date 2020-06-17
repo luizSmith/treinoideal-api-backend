@@ -38,11 +38,12 @@ class PersonalService {
 
     async detalhes (id) {
         let result = await this.Personal.findByPk(id,{
+            raw: true,
             attributes: [
                 ['cd_personal','codigo'], 
                 ['nm_personal', 'nome'],
                 ['nm_email', 'email'],
-                ['dt_nascimento', 'nascimento'],
+                [Database.Sequelize.fn('date_format', Database.Sequelize.col('dt_nascimento'), '%d/%m/%Y'), 'nascimento'],
                 ['cd_cref', 'cref'],
             ]
         });
