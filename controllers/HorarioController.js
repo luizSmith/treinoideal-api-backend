@@ -32,6 +32,8 @@ class HorarioController {
         };
 
         try {
+            await HorarioService.verifica_horario_insert(horario);
+
             let result = await HorarioService.insert(horario);
 
             await ResponseValidation.insert(result,res);
@@ -77,6 +79,8 @@ class HorarioController {
         try {
             await ResponseValidation.validaNumber(id,res);
 
+            await HorarioService.verifica_horario_update(id,dados);
+
             let result = await HorarioService.atualiza(id,dados);
             await ResponseValidation.update(result,res);
         } catch (err) {
@@ -86,11 +90,12 @@ class HorarioController {
 
     async delete(req, res) {
         let {id} = req.params;
+        let {associacao} = req.body;
 
         try {
             await ResponseValidation.validaNumber(id,res);
 
-            let result = await HorarioService.deleta(id);
+            let result = await HorarioService.deleta(id,associacao);
             await ResponseValidation.delete(result,res);
         } catch (err) {
             res.status(400).json(err);
