@@ -1,4 +1,6 @@
 'use strict';
+
+const moment = require('moment');
 module.exports = (sequelize, DataTypes) => {
   const Aula = sequelize.define('tb_aula', {
     cd_aula: {
@@ -10,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     dt_aula: {
       type:DataTypes.DATE,
       allowNull: false,
+      get() {
+        return moment(this.getDataValue('dt_aula')).format('DD/MM/YYYY');
+      },
       validate: {
           isDate:{
               msg: "Tem que ser uma data valida"

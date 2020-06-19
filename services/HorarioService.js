@@ -223,6 +223,42 @@ class HorarioService {
         return result;
     }
 
+    async verifica_horario(dados) {
+
+        let result = await this.sequelize.query(`
+            SELECT
+                h.cd_horario codigo_horario,
+                DATE_FORMAT(h.hr_inicial,"%T") hora_inicio,
+                DATE_FORMAT(h.hr_final,"%T") hora_final,
+                h.dd_semana dia_semana,
+                h.ic_disponivel ativo,
+                h.cd_personal_aluno codigo_associacao
+            FROM
+                tb_horario h
+            INNER JOIN
+                tb_personal_aluno a ON h.cd_personal_aluno = a.cd_personal_aluno AND a.cd_personal = :personal
+            WHERE
+                h.ic_disponivel = '1'
+                AND
+                TIME(h.cd_horario) <= TIME(TIME_FORMAT(:horario,"%T"))
+        `,{
+            replacements: dados,
+            type: this.QueryTypes.SELECT,
+            raw: true
+        });
+
+        if (result.length <= 0) {
+            throw {
+                "name": "Erro",
+                "errors":[{
+                    "message": "Horário not found"
+                }]
+            }
+        }
+
+        return result;
+    }
+
 }
 
 module.exports = new HorarioService();
