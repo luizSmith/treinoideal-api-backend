@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "c?digo do personal n?o pode ser nulo"
+          msg: "código do personal n?o pode ser nulo"
         }
       }
     },
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
             notEmpty: {
-              msg: "c?digo do personal n?o pode ser nulo"
+              msg: "código do personal n?o pode ser nulo"
             }
         }
     },
