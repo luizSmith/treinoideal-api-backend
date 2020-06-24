@@ -4,43 +4,50 @@ class ExercicioService {
     constructor() {
         this.Exercicio = Database["tb_exercicio"];
         this.Aparelho = Database["tb_aparelho"];
+        this.sequelize = Database.sequelize;
+        this.QueryTypes = Database.sequelize.QueryTypes;
     }
 
     async lista() {
-        let result = await this.Exercicio.findAll({
-            attributes: [
-                ['cd_exercicio','codigo'],
-                ['nm_exercicio','exercicio']
-            ],
-            include: [{
-                model:this.Aparelho,
-                required: true,
-                attributes: [
-                    ['nm_aparelho','exercicio']
-                ]
-            }]
-        });
+        let result = await this.sequelize.query(`
+            SELECT
+                e.cd_exercicio codigo,
+                e.nm_exercicio nome,
+                a.nm_aparelho aparelho
+            FROM
+                tb_exercicio e
+            INNER JOIN
+                tb_aparelho a ON e.cd_aparelho = a.cd_aparelho
+            `,
+            {
+                type: this.QueryTypes.SELECT,
+                raw: true
+            }
+        );
+
         return result;
     }
 
     async detalhes (id) {
-        let result = await this.Exercicio.findByPk(id,{
-            attributes: [
-                ['cd_exercicio','codigo'],
-                ['nm_exercicio','exercicio']
-            ],
-            include: [{
-                model:this.Aparelho,
-                required: true,
-                attributes: [
-                    ['cd_aparelho','codigo'],
-                    ['nm_aparelho','exercicio']
-                ]
-            }]
-        });
-        if (result == undefined) {
-            throw "Bad Request"
-        }
+        let result = await this.sequelize.query(`
+            SELECT
+                e.cd_exercicio codigo,
+                e.nm_exercicio nome,
+                a.nm_aparelho aparelho
+            FROM
+                tb_exercicio e
+            INNER JOIN
+                tb_aparelho a ON e.cd_aparelho = a.cd_aparelho
+            WHERE
+                e.cd_exercicio = :exercicio
+            `,
+            {
+                replacements: { exercicio: id },
+                type: this.QueryTypes.SELECT,
+                raw: true
+            }
+        );
+
         return result;
     }
 }
