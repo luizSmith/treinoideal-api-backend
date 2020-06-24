@@ -1,4 +1,5 @@
 'use strict';
+const moment = require('moment');
 module.exports = (sequelize, DataTypes) => {
   const Personal = sequelize.define('tb_personal', {
     cd_personal: {
@@ -40,6 +41,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     dt_nascimento : {
         type: DataTypes.DATE,
+        get() {
+          return moment(this.getDataValue('dt_nascimento')).format("DD/MM/YYYY");
+        },
         allowNull: false,
         validate: {
           notEmpty: {

@@ -11,6 +11,8 @@ class PersonalService {
 
         senha = await this.encripta(senha);
 
+        console.log(data);
+
         let dados = {
             nm_personal:nome,
             nm_email:email,
