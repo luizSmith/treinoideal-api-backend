@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
             isIn:{
                 args:[['0','1']],
                 msg: "O valor tem que ser 0 ou 1"
-            } ,
+            },
         }
     },
     cd_personal_aluno:{

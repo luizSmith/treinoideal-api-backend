@@ -12,6 +12,7 @@ const CepRouter = require("./routes/CepRouter");
 const AlunoRouter = require("./routes/AlunoRouter");
 const HorarioRouter = require("./routes/HorarioRouter");
 const PersonalAlunoRouter = require("./routes/PersonalAlunoRouter");
+const SerieRouter = require("./routes/SerieRouter");
 const AulaRouter = require("./routes/AulaRouter");
 
 const RaizRouter = require("./routes/RaizRouter");
@@ -44,20 +45,19 @@ app.use("/",AlunoRouter);
 app.use("/",HorarioRouter);
 app.use("/",PersonalAlunoRouter);
 app.use("/",AulaRouter);
+app.use("/",SerieRouter);
 app.use("/",RaizRouter);
 
 
 // Router
 app.get("/",function(req,res){
-     console.log("Aplica��o rodando com sucesso");
+     console.log("Aplicação rodando com sucesso");
      res.send("Hello, World!");
 });
 
 app.use(function (req, resp, next) {
     resp.status(404).render("notFound");
 });
-
-
 
 app.listen(process.env.PORT || 3000,function(erro){
     if (erro) {

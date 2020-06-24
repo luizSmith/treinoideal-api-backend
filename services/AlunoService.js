@@ -148,7 +148,7 @@ class AlunoService {
                 }
             });
             return result;
-        }catch(erro) {
+        } catch(erro) {
             throw erro;
         }
     }
