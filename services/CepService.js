@@ -5,6 +5,8 @@ class CepService {
     constructor() {
         this.Cep = Database["tb_cep"];
         this.UF = Database["tb_uf"];
+        this.sequelize = Database.sequelize;
+        this.QueryTypes = Database.sequelize.QueryTypes;
     }
 
     async insert(personal) {
@@ -31,43 +33,51 @@ class CepService {
     }
     
     async lista() {
-        let result = await this.Cep.findAll({
-            attributes: [
-                ['cd_cep', 'cep'],
-                ['nm_longradouro','longradouro'],
-                ['nm_bairro','bairro'],
-                ['nm_cidade','cidade']
-            ],
-            include: [ {
-                model:this.UF,
-                required: true,
-                attributes: [
-                    ['sg_uf', 'sigla'],
-                    ['nm_estado','estado']
-                ],
-            } ]
-        });
+        let result = await this.sequelize.query(`
+            SELECT
+                c.cd_cep cep,
+                c.nm_longradouro longradouro,
+                c.nm_bairro bairro,
+                c.nm_cidade cidade,
+                uf.sg_uf sigla,
+                uf.nm_estado estado
+            FROM
+                tb_cep c
+            INNER JOIN
+                tb_uf uf ON c.sg_uf = uf.sg_uf
+            `,
+            {
+                type: this.QueryTypes.SELECT,
+                raw: true
+            }
+        );
+
         return result;
     }
 
     async detalhes (id) {
-        let result = await this.Cep.findByPk(id,{
-            raw:true,
-            attributes: [
-                ['cd_cep', 'cep'],
-                ['nm_longradouro','longradouro'],
-                ['nm_bairro','bairro'],
-                ['nm_cidade','cidade']
-            ],
-            include: [ {
-                model:this.UF,
-                required: true,
-                attributes: [
-                    ['sg_uf', 'sigla'],
-                    ['nm_estado','estado']
-                ],
-            } ]
-        });
+        let result = await this.sequelize.query(`
+            SELECT
+                c.cd_cep cep,
+                c.nm_longradouro longradouro,
+                c.nm_bairro bairro,
+                c.nm_cidade cidade,
+                uf.sg_uf sigla,
+                uf.nm_estado estado
+            FROM
+                tb_cep c
+            INNER JOIN
+                tb_uf uf ON c.sg_uf = uf.sg_uf
+            WHERE
+                c.cd_cep = :cep
+            `,
+            {
+                replacements: { cep: id },
+                type: this.QueryTypes.SELECT,
+                raw: true
+            }
+        );
+
         return result;
     }
 
