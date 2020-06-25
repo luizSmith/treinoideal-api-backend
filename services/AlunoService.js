@@ -6,7 +6,9 @@ class AlunoService {
     constructor() {
         this.Aluno = Database["tb_aluno"];
         this.Cep = Database["tb_cep"];
-        this.UF = Database["tb_uf"];        
+        this.UF = Database["tb_uf"];
+        this.sequelize = Database.sequelize;
+        this.QueryTypes = Database.sequelize.QueryTypes;   
     }
 
     async insert(aluno) {
@@ -48,68 +50,67 @@ class AlunoService {
     }
  
     async lista() {
-        let result = await this.Aluno.findAll({
-            attributes: [
-                ['cd_aluno','codigo'], 
-                ['nm_aluno', 'nome'],
-                ['nm_email', 'email'],
-                [Database.Sequelize.fn('date_format', Database.Sequelize.col('dt_nascimento'), '%d/%m/%Y'), 'nascimento'],
-                ['cd_cpf', 'cpf'],
-                ['cd_endereco', 'numero']
-            ],
-            include: [ { 
-                model: this.Cep,
-                required: true,
-                
-                attributes: [
-                    ['cd_cep', 'cep'],
-                    ['nm_longradouro','longradouro'],
-                    ['nm_bairro','bairro'],
-                    ['nm_cidade','cidade']
-                ],
-                include: [ {
-                    model:this.UF,
-                    required: true,
-                    attributes: [
-                        ['sg_uf', 'sigla'],
-                        ['nm_estado','estado']
-                    ],
-                } ]
-                
-            } ]
-          });
+        let result = await this.sequelize.query(`
+            SELECT
+                a.cd_aluno codigo,
+                a.nm_aluno nome,
+                a.nm_email email,
+                DATE_FORMAT(a.dt_nascimento,"%d/%m/%Y") nascimento,
+                a.cd_cpf cpf,
+                a.cd_endereco numero,
+                c.cd_cep cep,
+                c.nm_longradouro longradouro,
+                c.nm_bairro bairro,
+                c.nm_cidade cidade,
+                u.sg_uf sigla,
+                u.nm_estado estado
+            FROM
+                tb_aluno a
+            INNER JOIN
+                tb_cep c ON a.cd_cep = c.cd_cep
+            INNER JOIN
+                tb_uf u ON c.sg_uf = u.sg_uf
+            `,
+            {
+                type: this.QueryTypes.SELECT,
+                raw: true
+            }
+        );
+
         return result;
     }
 
     async detalhes (id) {
-        let result = await this.Aluno.findByPk(id,{
-            attributes: [
-                ['cd_aluno','codigo'], 
-                ['nm_aluno', 'nome'],
-                ['nm_email', 'email'],
-                [Database.Sequelize.fn('date_format', Database.Sequelize.col('dt_nascimento'), '%d/%m/%Y'), 'nascimento'],
-                ['cd_cpf', 'cpf'],
-                ['cd_endereco', 'numero']
-            ],
-            include: [ { 
-                model: this.Cep,
-                required: true,
-                attributes: [
-                    ['cd_cep', 'cep'],
-                    ['nm_longradouro','longradouro'],
-                    ['nm_bairro','bairro'],
-                    ['nm_cidade','cidade']
-                ],
-                include: [ {
-                    model:this.UF,
-                    required: true,
-                    attributes: [
-                        ['sg_uf', 'sigla'],
-                        ['nm_estado','estado']
-                    ],
-                } ]                
-            }]
-          });
+        let result = await this.sequelize.query(`
+            SELECT
+                a.cd_aluno codigo,
+                a.nm_aluno nome,
+                a.nm_email email,
+                DATE_FORMAT(a.dt_nascimento,"%d/%m/%Y") nascimento,
+                a.cd_cpf cpf,
+                a.cd_endereco numero,
+                c.cd_cep cep,
+                c.nm_longradouro longradouro,
+                c.nm_bairro bairro,
+                c.nm_cidade cidade,
+                u.sg_uf sigla,
+                u.nm_estado estado
+            FROM
+                tb_aluno a
+            INNER JOIN
+                tb_cep c ON a.cd_cep = c.cd_cep
+            INNER JOIN
+                tb_uf u ON c.sg_uf = u.sg_uf
+            WHERE
+                a.cd_aluno = :aluno
+            `,
+            {
+                replacements: { aluno: id },
+                type: this.QueryTypes.SELECT,
+                raw: true
+            }
+        );
+        
         return result;
     }
 
