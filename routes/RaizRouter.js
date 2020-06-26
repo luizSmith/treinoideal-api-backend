@@ -9,5 +9,4 @@ router.get("/dados", loginAuth, RaizController.detals);
 
 router.get("/logout", RaizController.delete);
 
-
 module.exports = router;

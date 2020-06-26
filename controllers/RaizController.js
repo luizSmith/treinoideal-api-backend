@@ -1,4 +1,5 @@
 const PersonalService = require("../services/PersonalService");
+const TokenService = require("../services/TokenService");
 const jwt = require('jsonwebtoken');
 require("dotenv-safe").config();
 
@@ -15,13 +16,15 @@ class RaizController {
                        
             let result = await PersonalService.findPersonal(personal);
             let token = await jwt.sign(result, process.env.SECRET, {
-                expiresIn: '1h' // expires in 60min
+                //expiresIn: '1h' // expires in 60min
                 //expiresIn: '1min' // expires in 2,5 min
             });
 
+            await TokenService.insert(token);
+
             res.status(200).send({
                 auth: true,
-                codigo:result.codigo,
+                //codigo:result.codigo,
                 token: token
             });
 
@@ -31,13 +34,20 @@ class RaizController {
     }
 
     async detals(req, res) {
-        res.send('oi');
+
     }
 
     async delete(req, res) {
         let token = req.headers['x-access-token'];
-        //await jwt.destroy(token);
-        res.status(200).send({ auth: false, token: null });
+
+        try {
+
+            await TokenService.desativa_log(token);
+            res.status(200).send({ auth: false, token: null });
+
+        } catch (erro) {
+            res.status(400).send(erro);
+        } 
     }
 }
 

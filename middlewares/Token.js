@@ -1,23 +1,26 @@
-const express = require("express");
-const router = express.Router();
 const jwt = require('jsonwebtoken');
 require("dotenv-safe").config();
-
-
+const RaizController = require("../controllers/RaizController");
+const TokenService = require("../services/TokenService");
 async function verifyJWT(req, res, next){
     let token = req.headers['x-access-token'];
 
     if (!token) {
         return res.status(401).send({
-            auth: false, 
-            message: 'No token provided.'
+            "name": "AutenticacaoFalha",
+            "errors":[{
+                "message": "No token provided"
+            }]
         });
     }
     
     try {
 
-        await jwt.verify(token, process.env.SECRET);
-        
+        let valida = await jwt.verify(token, process.env.SECRET);
+        await TokenService.findToken(token);
+
+        //res.json(valida);
+             
         next();
 
     } catch (erro) {
