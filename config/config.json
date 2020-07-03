@@ -33,5 +33,13 @@
     "dialect": "mysql",
     "operatorsAliases": false,
     "timezone": "-03:00"
+    "define": {
+        "timestamps":true,
+        "charset": "utf8",
+        "freezeTableName": true
+      },
+      "dialectOptions": {
+        "useUTC": true
+      }
   }
 }
