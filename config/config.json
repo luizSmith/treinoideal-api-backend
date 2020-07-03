@@ -32,7 +32,7 @@
     "host": "us-cdbr-east-02.cleardb.com",
     "dialect": "mysql",
     "operatorsAliases": false,
-    "timezone": "-03:00"
+    "timezone": "-03:00",
     "define": {
         "timestamps":true,
         "charset": "utf8",
