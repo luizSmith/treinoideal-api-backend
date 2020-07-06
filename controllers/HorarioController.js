@@ -4,15 +4,8 @@ const ResponseValidation = require("../Validation/ResponseValidation");
 class HorarioController {
 
     async index(req, res) {
-        let id = req.body.codigo;
-
-        if (isNaN(id)) {
-            res.statusCode = 404;
-            return res.send("Not Found");
-        }
-
         try {
-            let result = await HorarioService.lista(id);
+            let result = await HorarioService.lista();
             res.statusCode = 200;
             res.json(result);
         } catch (err) {

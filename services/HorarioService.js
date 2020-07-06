@@ -58,9 +58,6 @@ class HorarioService {
                         ['cd_personal', 'codigo'],
                         ['nm_personal','nome']
                     ],
-                    where:{
-                        cd_personal:id
-                    }
                 },{
                     model: this.Aluno,
                     required:true,
