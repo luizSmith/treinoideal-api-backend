@@ -34,7 +34,7 @@ class RaizController {
     }
 
     async detals(req, res) {
-
+        res.status(200).send(true);
     }
 
     async delete(req, res) {
