@@ -143,6 +143,52 @@ class PersonalService {
 
         return result;
     }
+    
+    async personalSenhaExists (email,cref) {
+        
+        if (email == undefined || cref == undefined) {
+            throw {
+                "name": "ProcessoValidate",
+                "errors":[{
+                    "message": "Personal não existe"
+                }]
+            };
+        }
+
+        let result = await this.Personal.findOne({
+            raw:true,
+            attributes: [
+                ['cd_personal','codigo'], 
+                ['nm_personal', 'nome'],
+                ['nm_email', 'email'],
+                ['cd_cref', 'cref'],
+            ],
+            where:{
+                nm_email:email,
+                cd_cref:cref
+            }
+        });
+
+        return result;
+    }
+
+    async atualizaSenha(id,personal) {
+
+        let {senha} = personal;
+
+        senha = await this.encripta(senha);
+
+        let dados = {
+            nm_senha:senha
+        };
+
+        let result = await this.Personal.update(dados,{
+            where: {
+                cd_personal: id
+            }
+        });
+        return result;
+    }
 }
 
 module.exports = new PersonalService();

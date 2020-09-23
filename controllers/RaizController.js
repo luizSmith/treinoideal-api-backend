@@ -1,5 +1,9 @@
 const PersonalService = require("../services/PersonalService");
+const AlunoService = require("../services/AlunoService");
 const TokenService = require("../services/TokenService");
+const Gerator = require('../Validation/GerarPasswordValidation');
+const ResponseValidation = require("../Validation/ResponseValidation");
+const EmailValidation = require("../Validation/EmailValidation");
 const jwt = require('jsonwebtoken');
 require("dotenv-safe").config();
 
@@ -48,6 +52,46 @@ class RaizController {
         } catch (erro) {
             res.status(400).send(erro);
         } 
+    }
+
+    async esqueciPersonal(req, res) {
+        let {personal_id, email} = req.body;
+        
+        try {      
+            let novaSenha = await Gerator.gerar();
+            
+            await PersonalService.atualizaSenha(personal_id, {senha: novaSenha});
+
+            let corpo = `
+                <h2> Nova senha: </h2> <h1> ${novaSenha} </h1>
+            `;
+
+            await EmailValidation.enviarEmail(corpo,email);
+
+            res.status(204).send(true);
+        } catch (erro) {
+            res.status(400).json({err:erro});
+        }
+    }
+
+    async esqueciAluno(req, res) {
+        let {aluno_id, email} = req.body;
+        
+        try {      
+            let novaSenha = await Gerator.gerar();
+            
+            await AlunoService.atualizaSenha(aluno_id, {senha: novaSenha});
+
+            let corpo = `
+                <h2> Nova senha: </h2> <h1> ${novaSenha} </h1>
+            `;
+
+            await EmailValidation.enviarEmail(corpo,email);
+
+            res.status(204).send(true);
+        } catch (erro) {
+            res.status(400).json({err:erro});
+        }
     }
 }
 

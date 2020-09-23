@@ -172,6 +172,52 @@ class AlunoService {
         return senha;
     }
 
+    async alunoSenhaExists (email,cpf) {
+        
+        if (email == undefined || cpf == undefined) {
+            throw {
+                "name": "ProcessoValidate",
+                "errors":[{
+                    "message": "Aluno não existe"
+                }]
+            };
+        }
+
+        let result = await this.Aluno.findOne({
+            raw:true,
+            attributes: [
+                ['cd_aluno','codigo'], 
+                ['nm_aluno', 'nome'],
+                ['nm_email', 'email'],
+                ['cd_cpf', 'cref'],
+            ],
+            where:{
+                nm_email:email,
+                cd_cpf:cpf
+            }
+        });
+
+        return result;
+    }
+
+    async atualizaSenha(id,aluno) {
+
+        let {senha} = aluno;
+
+        senha = await this.encripta(senha);
+
+        let dados = {
+            nm_senha:senha
+        };
+
+        let result = await this.Aluno.update(dados,{
+            where: {
+                cd_aluno: id
+            }
+        });
+        return result;
+    }
+
 }
 
 module.exports = new AlunoService();
