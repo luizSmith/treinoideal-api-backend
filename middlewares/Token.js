@@ -24,7 +24,6 @@ async function verifyJWT(req, res, next){
         next();
 
     } catch (erro) {
-        console.log(erro);
         res.status(500).send({
             auth: false, 
             message: 'Failed to authenticate token.' 
