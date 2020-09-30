@@ -38,7 +38,15 @@ class RaizController {
     }
 
     async detals(req, res) {
-        res.status(200).send(true);
+        try {
+            let personal = req.headers['dados_user'];
+
+            let dados = await PersonalService.detalhes(personal.codigo);
+
+            ResponseValidation.detalhes(dados, res);   
+        } catch(erro) {
+            res.status(400).send(erro);
+        }             
     }
 
     async delete(req, res) {

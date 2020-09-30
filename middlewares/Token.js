@@ -16,10 +16,12 @@ async function verifyJWT(req, res, next){
     
     try {
 
-        let valida = await jwt.verify(token, process.env.SECRET);
+        req.headers['dados_user'] = await jwt.verify(token, process.env.SECRET);
         await TokenService.findToken(token);
 
-        //res.json(valida);
+        //var decoded = jwt.decode(token, {complete: true});
+
+        //res.json(req.headers['dados_user']);
              
         next();
 
