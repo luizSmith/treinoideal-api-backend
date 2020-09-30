@@ -6,17 +6,15 @@ const PersonalService = require("../services/PersonalService");
 class PersonalAlunoController {
 
     async index(req, res) {
-         let {personal,aluno} = req.headers;
+        try {
+            let {codigo} = req.headers['dados_user'];
 
-        let dados = {
-            cd_personal:personal
-        };
+            let result = await PersonalAlunoService.lista(codigo);
 
-        let result = await PersonalService.detalhes(personal);
-        
-        result.alunos = await PersonalAlunoService.lista(dados);
-
-        res.status(200).send(result);       
+            ResponseValidation.detalhes(result, res);
+        } catch(erro) {
+            res.status(400).send(erro);
+        }             
     }
 }
 

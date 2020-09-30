@@ -25,7 +25,7 @@ class PersonalAlunoService {
         return result;
     }
 
-    async lista(dados) {
+    async lista(personal) {
 
         let result = await this.sequelize.query(`
                 SELECT
@@ -41,7 +41,7 @@ class PersonalAlunoService {
                     a.cd_personal = :personal
             `,
             {
-                replacements: { personal: dados.cd_personal },
+                replacements: { personal: personal },
                 type: this.QueryTypes.SELECT,
                 raw: true
             }
