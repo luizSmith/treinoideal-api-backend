@@ -65,5 +65,7 @@ app.listen(process.env.PORT || 3000,function(erro){
     } else {
         console.log("servidor rodando com sucesso");
     }
-    console.log("servidor rodando com sucesso 2");
+    const fs = require('fs');
+    let data = fs.readFileSync('./inicioPersonal.txt', 'utf8');
+    console.log(data.toString());
 });
