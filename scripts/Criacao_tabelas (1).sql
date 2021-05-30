@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS tb_cep
     PRIMARY KEY (cd_cep),
   CONSTRAINT fk_cep_uf
     FOREIGN KEY (sg_uf)
-        REFERENCES tb_ufs(sg_uf)
+        REFERENCES tb_uf(sg_uf)
 );
 
 CREATE TABLE IF NOT EXISTS tb_aluno
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS tb_aluno
         PRIMARY KEY (cd_aluno),
     CONSTRAINT fk_usuario_cep
         FOREIGN KEY (cd_cep) 
-            REFERENCES tb_ceps (cd_cep)
+            REFERENCES tb_cep (cd_cep)
 );
 
 CREATE TABLE IF NOT EXISTS tb_personal_aluno
@@ -82,10 +82,10 @@ CREATE TABLE IF NOT EXISTS tb_personal_aluno
     PRIMARY KEY (cd_personal_aluno),
     CONSTRAINT fk_horario_aluno 
         FOREIGN KEY (cd_aluno) 
-            REFERENCES tb_alunos(cd_aluno),
+            REFERENCES tb_aluno(cd_aluno),
     CONSTRAINT fk_horario_personal 
         FOREIGN KEY (cd_personal) 
-            REFERENCES tb_personals(cd_personal)
+            REFERENCES tb_personal(cd_personal)
 );
 
 CREATE TABLE IF NOT EXISTS tb_horario
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS tb_horario
     PRIMARY KEY (cd_horario),
     CONSTRAINT fk_horario_personal_aluno
         FOREIGN KEY (cd_personal_aluno) 
-            REFERENCES tb_personal_alunos(cd_personal_aluno)
+            REFERENCES tb_personal_aluno(cd_personal_aluno)
 );
 
 CREATE TABLE IF NOT EXISTS tb_aula
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS tb_aula
         PRIMARY KEY (cd_aula),
     CONSTRAINT fk_aula_horario 
         FOREIGN KEY (cd_horario) 
-            REFERENCES tb_horarios(cd_horario)
+            REFERENCES tb_horario(cd_horario)
 );
 
 CREATE TABLE IF NOT EXISTS tb_medida
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS tb_medida
         PRIMARY KEY (cd_medidas),
     CONSTRAINT fk_medida_aula 
         FOREIGN KEY (cd_aula) 
-            REFERENCES tb_aulas(cd_aula)
+            REFERENCES tb_aula(cd_aula)
 );
 
 CREATE TABLE IF NOT EXISTS tb_exercicio
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS tb_exercicio
         PRIMARY KEY (cd_exercicio),
     CONSTRAINT fk_exercicio_aparelho 
         FOREIGN KEY (cd_aparelho) 
-            REFERENCES tb_aparelhos(cd_aparelho)
+            REFERENCES tb_aparelho(cd_aparelho)
 );
 
 CREATE TABLE IF NOT EXISTS tb_aula_exercicio
@@ -163,10 +163,10 @@ CREATE TABLE IF NOT EXISTS tb_aula_exercicio
     updatedAt DATETIME NOT NULL,
     CONSTRAINT fk_aula_exercicio 
         FOREIGN KEY (cd_aula) 
-            REFERENCES tb_aulas(cd_aula),
+            REFERENCES tb_aula(cd_aula),
     CONSTRAINT fk_exercicio_horario 
         FOREIGN KEY (cd_exercicio) 
-            REFERENCES tb_exercicios(cd_exercicio)
+            REFERENCES tb_exercicio(cd_exercicio)
 );
 
 CREATE TABLE IF NOT EXISTS tb_log
@@ -182,3 +182,31 @@ CREATE TABLE IF NOT EXISTS tb_log
     CONSTRAINT pk_log
         PRIMARY KEY (cd_log)
 );
+
+Insert Into tb_uf (sg_uf,nm_estado) Values('AC','Acre');  
+Insert Into tb_uf (sg_uf,nm_estado) Values('AL','Alagoas');  
+Insert Into tb_uf (sg_uf,nm_estado) Values('AM','Amazonas');
+Insert Into tb_uf (sg_uf,nm_estado) Values('AP','Amapá');
+Insert Into tb_uf (sg_uf,nm_estado) Values('BA','Bahia');
+Insert Into tb_uf (sg_uf,nm_estado) Values('CE','Ceará');
+Insert Into tb_uf (sg_uf,nm_estado) Values('DF','Distrito Federal');
+Insert Into tb_uf (sg_uf,nm_estado) Values('ES','Espírito Santo');
+Insert Into tb_uf (sg_uf,nm_estado) Values('GO','Goiás');
+Insert Into tb_uf (sg_uf,nm_estado) Values('MA','Maranhão');
+Insert Into tb_uf (sg_uf,nm_estado) Values('MG','Minas Gerais');
+Insert Into tb_uf (sg_uf,nm_estado) Values('MS','Mato Grosso do Sul');
+Insert Into tb_uf (sg_uf,nm_estado) Values('MT','Mato Grosso');
+Insert Into tb_uf (sg_uf,nm_estado) Values('PA','Pará');
+Insert Into tb_uf (sg_uf,nm_estado) Values('PB','Paraíba');
+Insert Into tb_uf (sg_uf,nm_estado) Values('PE','Pernambuco');
+Insert Into tb_uf (sg_uf,nm_estado) Values('PI','Piauí');
+Insert Into tb_uf (sg_uf,nm_estado) Values('PR','Paraná');
+Insert Into tb_uf (sg_uf,nm_estado) Values('RJ','Rio de Janeiro');
+Insert Into tb_uf (sg_uf,nm_estado) Values('RN','Rio Grande do Norte');
+Insert Into tb_uf (sg_uf,nm_estado) Values('RO','Rondônia');
+Insert Into tb_uf (sg_uf,nm_estado) Values('RR','Roraima');
+Insert Into tb_uf (sg_uf,nm_estado) Values('RS','Rio Grande do Sul');
+Insert Into tb_uf (sg_uf,nm_estado) Values('SC','Santa Catarina');
+Insert Into tb_uf (sg_uf,nm_estado) Values('SE','Sergipe');
+Insert Into tb_uf (sg_uf,nm_estado) Values('SP','São Paulo');
+Insert Into tb_uf (sg_uf,nm_estado) Values('TO','Tocantins');

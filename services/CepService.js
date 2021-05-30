@@ -121,7 +121,7 @@ class CepService {
 
         let resposta = await this.detalhes(dados.cd_cep);
         
-        if (resposta == undefined) {
+        if (resposta.length == 0 || resposta == undefined) {
 
             dados = await this.Cep.create(dados);
 
