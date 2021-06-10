@@ -4,12 +4,12 @@ const ResponseValidation = require("../Validation/ResponseValidation");
 class HorarioController {
 
     async index(req, res) {
-        let {id} = req.headers;
+        let { dados_user } = req.headers;
 
         try {
-            await ResponseValidation.validaNumber(id,res);
+            await ResponseValidation.validaNumber(dados_user.codigo, res);
 
-            let result = await HorarioService.lista(id);
+            let result = await HorarioService.lista(dados_user.codigo);
             res.status(200).json(result);
         } catch (err) {
             res.status(400).json(err);
