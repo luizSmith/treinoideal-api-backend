@@ -89,11 +89,11 @@ class HorarioController {
     }
 
     async delete(req, res) {
-        let {id} = req.params;
-        let {associacao} = req.body;
+        let {id, associacao} = req.params;
 
         try {
             await ResponseValidation.validaNumber(id,res);
+            await ResponseValidation.validaNumber(associacao,res);
 
             let result = await HorarioService.deleta(id,associacao);
             await ResponseValidation.delete(result,res);

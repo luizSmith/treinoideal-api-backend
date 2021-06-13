@@ -13,6 +13,6 @@ router.get("/horario/:id", loginAuth, HorarioController.detals);
 
 router.put("/horario/:id", loginAuth, HorarioController.update);
 
-router.delete("/horario/:id", loginAuth, HorarioController.delete);
+router.delete("/horario/:id/associacao/:associacao", loginAuth, HorarioController.delete);
 
 module.exports = router;
