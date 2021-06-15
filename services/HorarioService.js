@@ -125,7 +125,9 @@ class HorarioService {
     }
 
     async deleta(id,associacao) {
-        let result = await this.Horario.destroy({
+        let result = await this.Horario.update({
+            ic_disponivel:'0'
+            }, {
             where: {
                 cd_horario: id,
                 cd_personal_aluno:associacao
