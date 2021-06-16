@@ -242,7 +242,7 @@ class HorarioService {
             WHERE
                 h.ic_disponivel = '1'
                 AND
-                TIME(h.cd_horario) <= TIME(TIME_FORMAT(:horario,"%T"))
+                h.cd_horario = :horario
         `,{
             replacements: dados,
             type: this.QueryTypes.SELECT,
