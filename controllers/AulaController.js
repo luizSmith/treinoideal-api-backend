@@ -27,7 +27,7 @@ class AulaController {
 
     async create(req, res) {
         let {data,horario} = req.body;
-        let {personal} = req.headers;
+        let personal = req.headers.dados_user.codigo;
 
         let aula = {
             data,
@@ -51,7 +51,7 @@ class AulaController {
 
     async update(req, res) {
         let {id} = req.params;
-        let {personal} = req.headers;
+        let personal = req.headers.dados_user.codigo;
 
         let {data,horario,feito} = req.body;
 
